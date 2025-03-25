@@ -39,16 +39,16 @@
       <!--Table body-->
       <tbody>
         <tr
-        *ngFor="let order of orders"
-        orders-table-item
-        [order]="order"
-        class="border-b border-dashed border-border hover:bg-card"></tr>
+          *ngFor="let order of orders"
+          orders-table-item
+          [order]="order"
+          class="border-b border-dashed border-border hover:bg-card"></tr>
       </tbody>
       <!--end::Table body-->
     </table>
     <p *ngIf="!isLoading && orders.length === 0" class="mx-auto p-12 text-center text-foreground">No items available</p>
-      <!-- Pagination -->
-      <app-pagination
+    <!-- Pagination -->
+    <app-pagination
       class="mx-auto"
       [currentPage]="currentPage"
       [totalPages]="totalPages"

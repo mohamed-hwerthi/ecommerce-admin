@@ -1,18 +1,17 @@
-import { Observable, Subscription, interval, startWith, switchMap } from 'rxjs';
+import { CommonModule, NgFor } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { Component, Input, OnInit } from '@angular/core';
-import { CommonModule, NgFor } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+import { Observable, Subscription, interval, startWith, switchMap } from 'rxjs';
 import { Order } from '../../../../../../core/models';
-import { OrdersTableItemComponent } from '../orders-table-item/orders-table-item.component';
-import { LoaderComponent } from '../../../../../../shared/components/loader/loader.component';
+import { openCreateOrderModal } from '../../../../../../core/state/modal/order/modal.actions';
 import { OrdersService } from '../../../../../../services/orders.service';
 import { ButtonComponent } from '../../../../../../shared/components/button/button.component';
-import { openCreateOrderModal } from '../../../../../../core/state/modal/order/modal.actions';
-import { OrderCreateModalComponent } from '../order-create-modal/order-create-modal.component';
-import { selectIsCreateOrderModalOpen } from '../../../../../../core/state/modal/order/modal.selectors';
-import { ToastrService } from 'ngx-toastr';
+import { LoaderComponent } from '../../../../../../shared/components/loader/loader.component';
 import { PaginationComponent } from '../../../../../../shared/components/pagination/pagination.component';
+import { OrderCreateModalComponent } from '../order-create-modal/order-create-modal.component';
+import { OrdersTableItemComponent } from '../orders-table-item/orders-table-item.component';
 @Component({
   selector: '[orders-table]',
   templateUrl: './orders-table.component.html',

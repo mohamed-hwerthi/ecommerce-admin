@@ -1,0 +1,38 @@
+<td class="py-2 text-center">
+  <span class="text-sm font-semibold text-muted-foreground">{{ category.name }}</span>
+</td>
+<td class="py-2 text-center">
+  <span class="text-sm font-semibold text-muted-foreground">{{ category.description }}</span>
+</td>
+
+<td class="py-2 text-center">
+  <div class="flex justify-end gap-4">
+    <!-- [ngClass]="{ 'button-disabled': currentUser.role === 'Moderator' && category.defaultItem }" -->
+    <app-button
+      *ngIf="currentUser$ | async as currentUser"
+      (click)="handleUpdateButtonClick(currentUser, category)"
+      impact="light"
+      tone="info"
+      shape="rounded"
+      size="medium">
+      <div class="flex items-center justify-center space-x-2">
+        <span>Update</span>
+        <svg-icon src="assets/icons/heroicons/outline/update.svg"></svg-icon>
+      </div>
+    </app-button>
+
+    <app-button
+      *ngIf="currentUser$ | async as currentUser"
+      [ngClass]="{ 'button-disabled': currentUser.role === 'Moderator' }"
+      (click)="currentUser.role === 'Admin' ? openDeleteModal() : null"
+      impact="light"
+      tone="danger"
+      shape="rounded"
+      size="medium">
+      <div class="flex items-center justify-center space-x-2">
+        <span>{{ currentUser.role === 'Admin' ? 'Delete' : 'Not allowed' }}</span>
+        <svg-icon src="assets/icons/heroicons/outline/delete.svg"></svg-icon>
+      </div>
+    </app-button>
+  </div>
+</td>

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { map, Observable, of, switchMap } from 'rxjs';
 import * as AuthActions from '../core/state/auth/auth.actions';
 import { AuthService } from './auth.service';
-import { selectIsAuthenticated } from '../core/state/auth/auth.selectors';
-import { map, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

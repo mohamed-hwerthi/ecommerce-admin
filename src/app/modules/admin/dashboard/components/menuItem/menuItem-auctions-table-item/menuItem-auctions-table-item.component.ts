@@ -26,7 +26,7 @@ export class MenuItemAuctionsTableItemComponent implements OnInit {
 
   currentUser$: Observable<User | null>;
 
-  constructor(private store: Store) {
+  constructor(private readonly store: Store) {
     this.currentUser$ = this.store.pipe(select(selectCurrentUser));
   }
 
@@ -54,7 +54,6 @@ export class MenuItemAuctionsTableItemComponent implements OnInit {
   openUserReviewsModal(itemId: number): void {
     this.store.dispatch(openUserReviewsModal({ itemId }));
   }
-
 
   truncateDescription(description: string, maxLength: number = 25): string {
     if (description.length > maxLength) {

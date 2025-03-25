@@ -10,9 +10,7 @@ export class Menu {
           icon: 'assets/icons/heroicons/outline/chart-pie.svg',
           label: 'Dashboard',
           route: '/admin/dashboard',
-          children: [
-            { label: 'Overview', route: '/admin/dashboard' },
-          ],
+          children: [{ label: 'Overview', route: '/admin/dashboard' }],
         },
       ],
     },
@@ -20,6 +18,11 @@ export class Menu {
       group: 'Entities',
       separator: true,
       items: [
+        {
+          icon: 'assets/icons/heroicons/outline/star.svg',
+          label: 'Categories',
+          route: '/admin/categories',
+        },
         {
           icon: 'assets/icons/heroicons/outline/gift.svg',
           label: 'Menu Items',
@@ -41,7 +44,8 @@ export class Menu {
           route: '/admin/reviews',
         },
       ],
-    },   {
+    },
+    {
       group: 'Pages',
       separator: false,
       items: [

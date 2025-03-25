@@ -15,12 +15,16 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class MenuItemDeleteModalComponent {
   menuItemIdToDelete: number | undefined | null = null;
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
-  constructor(private store: Store, private MenuItemsService: MenuItemsService, private toastr: ToastrService) {
+  constructor(
+    private store: Store,
+    private readonly MenuItemsService: MenuItemsService,
+    private readonly toastr: ToastrService,
+  ) {
     this.subscription.add(
       this.store.select(selectDeleteMenuItemId).subscribe((MenuItemId) => {
-        console.log(MenuItemId)
+        console.log(MenuItemId);
         this.menuItemIdToDelete = MenuItemId;
       }),
     );
@@ -28,16 +32,16 @@ export class MenuItemDeleteModalComponent {
 
   deleteMenuItem(): void {
     if (!this.menuItemIdToDelete) {
-      this.toastr.error('Menu item ID to delete not provided!')
+      this.toastr.error('Menu item ID to delete not provided!');
       return;
     }
     this.MenuItemsService.deleteMenuItem(this.menuItemIdToDelete).subscribe({
       next: () => {
         this.MenuItemsService.menuItemDeleted(this.menuItemIdToDelete);
-        this.toastr.success(`Menu item with ID ${this.menuItemIdToDelete} deleted successfully!`)
+        this.toastr.success(`Menu item with ID ${this.menuItemIdToDelete} deleted successfully!`);
         this.closeModal();
       },
-      error: (error) => this.toastr.error('Failed to delete menu item!:', error.message)
+      error: (error) => this.toastr.error('Failed to delete menu item!:', error.message),
     });
   }
 

@@ -8,12 +8,12 @@ import { MenuItem, SubMenuItem } from 'src/app/core/models/nav-menu-item.model';
   providedIn: 'root',
 })
 export class MenuService implements OnDestroy {
-  private _showSidebar = signal(true);
-  private _showMobileMenu = signal(false);
-  private _pagesMenu = signal<MenuItem[]>([]);
-  private _subscription = new Subscription();
+  private readonly _showSidebar = signal(true);
+  private readonly _showMobileMenu = signal(false);
+  private readonly _pagesMenu = signal<MenuItem[]>([]);
+  private readonly _subscription = new Subscription();
 
-  constructor(private router: Router) {
+  constructor(private readonly router: Router) {
     /** Set dynamic menu */
     this._pagesMenu.set(Menu.pages);
 

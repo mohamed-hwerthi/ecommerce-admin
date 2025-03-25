@@ -6,6 +6,7 @@ import { ItemsComponent } from './pages/items/items.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
+import { CategoryComponent } from './pages/category/category.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,8 @@ const routes: Routes = [
       { path: 'orders', component: OrdersComponent },
       { path: 'reviews', component: ReviewsComponent },
       { path: 'users', component: UsersComponent },
+      { path: 'categories', component: CategoryComponent },
+
       { path: 'dashboard', component: OverviewComponent },
       { path: '**', redirectTo: 'dashboard' },
     ],
@@ -27,4 +30,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DashboardRoutingModule { }
+export class DashboardRoutingModule {}

@@ -1,0 +1,11 @@
+<div class="mx-auto px-4 py-4 sm:px-8 lg:container" @slideInRight>
+  <div category-auctions-table></div>
+
+  @if (showCreateCategoryModal$ | async) {
+  <div category-create-modal @fadeInOut></div>
+  } @if (showDeletecategoryModal$ | async) {
+  <div category-delete-modal @fadeInOut></div>
+  } @if (showUpdatecategoryModal$ | async) {
+  <div category-update-modal @fadeInOut></div>
+  }
+</div>

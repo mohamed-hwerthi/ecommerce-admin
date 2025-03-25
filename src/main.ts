@@ -22,6 +22,7 @@ import { CartEffects } from './app/core/state/shopping-cart/cart.effects';
 import { ReviewModalReducer } from './app/core/state/modal/review/modal.reducer';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { categoryModalReducer } from './app/core/state/modal/category/modal.reducer';
 
 if (environment.production) {
   enableProdMode();
@@ -30,8 +31,6 @@ if (environment.production) {
     selfXSSWarning();
   }
 }
-
-
 
 export function initializeApp(authStateService: AuthStateService, translate: TranslateService) {
   return (): Promise<void> => {
@@ -52,6 +51,7 @@ const initialReducers = {
   orderModals: orderModalReducer,
   reviewModals: ReviewModalReducer,
   menuItemModals: menuItemsModalReducer,
+  categoryModals: categoryModalReducer,
   auth: authReducer,
   cart: cartReducer,
 };
@@ -69,7 +69,7 @@ bootstrapApplication(AppComponent, {
           useFactory: HttpLoaderFactory,
           deps: [HttpClient],
         },
-      })
+      }),
     ),
     provideAnimations(),
     provideToastr(),
@@ -78,6 +78,7 @@ bootstrapApplication(AppComponent, {
       orderModals: orderModalReducer,
       reviewModals: ReviewModalReducer,
       menuItemModals: menuItemsModalReducer,
+      categoryModals: categoryModalReducer,
       auth: authReducer,
       cart: cartReducer,
     }),
@@ -96,7 +97,6 @@ bootstrapApplication(AppComponent, {
     },
   ],
 }).catch((err) => console.error(err));
-
 
 function selfXSSWarning() {
   setTimeout(() => {

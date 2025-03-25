@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { MenuItem } from '../../../../../../core/models';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { selectMenuItemToUpdate } from '../../../../../../core/state/modal/menuItem/modal.selectors';
-import { closeUpdateMenuItemModal } from '../../../../../../core/state/modal/menuItem/modal.actions';
-import { MenuItemsService } from '../../../../../../services/menuItems.service';
 import { ToastrService } from 'ngx-toastr';
+import { closeUpdateMenuItemModal } from '../../../../../../core/state/modal/menuItem/modal.actions';
+import { selectMenuItemToUpdate } from '../../../../../../core/state/modal/menuItem/modal.selectors';
+import { MenuItemsService } from '../../../../../../services/menuItems.service';
 
 @Component({
   selector: '[menuItem-update-modal]',
