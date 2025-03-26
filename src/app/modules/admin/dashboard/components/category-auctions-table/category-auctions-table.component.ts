@@ -70,7 +70,7 @@ export class CategoryAuctionsTableComponent {
   loadCategories(page: number, limit: number = 10): void {
     this.isLoading = true;
 
-    this.categoryService.findAllCategories(page, limit).subscribe({
+    this.categoryService.findAllCategoriesWithPagination(page, limit).subscribe({
       next: (response: PaginatedResponseDTO<CategoryDTO>) => {
         this.originalCategories = response.items;
         this.categories = [...this.originalCategories]; // Copy for display purposes

@@ -34,8 +34,12 @@ export class CategoryService extends BaseService {
     this.categoryDeleteSource.next(categoryId);
   }
 
-  findAllCategories(page: number, limit: number): Observable<PaginatedResponseDTO<CategoryDTO>> {
-    return this.get<PaginatedResponseDTO<CategoryDTO>>(this.baseUrl);
+  findAllCategories(): Observable<CategoryDTO[]> {
+    return this.get<CategoryDTO[]>(this.baseUrl);
+  }
+
+  findAllCategoriesWithPagination(page: number, limit: number): Observable<PaginatedResponseDTO<CategoryDTO>> {
+    return this.get<PaginatedResponseDTO<CategoryDTO>>(this.baseUrl + '/pageable');
   }
 
   findCategoryById(id: number): Observable<CategoryDTO> {

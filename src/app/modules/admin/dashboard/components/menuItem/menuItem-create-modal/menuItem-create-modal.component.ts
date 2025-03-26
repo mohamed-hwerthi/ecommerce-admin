@@ -6,7 +6,8 @@ import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angula
 import { MenuItemsService } from '../../../../../../services/menuItems.service';
 import { closeCreateMenuItemModal } from '../../../../../../core/state/modal/menuItem/modal.actions';
 import { ToastrService } from 'ngx-toastr';
-
+import { CategoryService } from 'src/app/services/category.service';
+import { CategoryDTO } from 'src/app/core/models/category.model';
 
 @Component({
   selector: '[menuItem-create-modal]',
@@ -16,27 +17,30 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class MenuItemCreateModalComponent {
   menuItemForm: FormGroup;
+  allCategories: CategoryDTO[] = [];
   defaultImageUrl: URL = new URL(
     'https://w0.peakpx.com/wallpaper/97/150/HD-wallpaper-mcdonalds-double-cheese-burger-double-mcdonalds-cheese-burger-thumbnail.jpg',
   );
 
   constructor(
-    private  readonly  fb: FormBuilder,
-    private readonly  menuItemsService: MenuItemsService,
-    private  readonly  store: Store,
-    private readonly  toastr: ToastrService,
+    private readonly fb: FormBuilder,
+    private readonly menuItemsService: MenuItemsService,
+    private readonly store: Store,
+    private readonly toastr: ToastrService,
+    private readonly categoryService: CategoryService,
   ) {
     this.menuItemForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
       price: [1, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?(\.\d+)?(?<=\d)$/)]],
       imageUrl: [''],
-      barCode:[''],
-      category: ['Burger',Validators.required],
+      barCode: [''],
+      category: ['Burger', Validators.required],
     });
   }
 
   ngOnInit() {
+    this.loadCategories();
     this.onUseDefaultImageChange(); // Setup listener for the checkbox
   }
 
@@ -92,5 +96,21 @@ export class MenuItemCreateModalComponent {
       }
     });
   }
+  loadCategories(): void {
+    this.categoryService.findAllCategories().subscribe({
+      next: (res: CategoryDTO[]) => {
+        this.allCategories = res;
+      },
+      error: (error) => {
+        this.toastr.error('Error fetching categories:', error);
+      },
+    });
 
+    // Update URL query parameters
+    /*   this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { page, category: categoryFilter, sort: priceSortDirection, default: isDefault },
+        queryParamsHandling: 'merge',
+      }); */
+  }
 }
