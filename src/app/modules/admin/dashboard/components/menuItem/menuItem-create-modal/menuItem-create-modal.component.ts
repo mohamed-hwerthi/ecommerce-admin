@@ -21,7 +21,9 @@ export class MenuItemCreateModalComponent {
   defaultImageUrl: URL = new URL(
     'https://w0.peakpx.com/wallpaper/97/150/HD-wallpaper-mcdonalds-double-cheese-burger-double-mcdonalds-cheese-burger-thumbnail.jpg',
   );
-
+  trackByFn(index: number, item: { id: string; name: string }): string {
+    return item.id; // Tracks by unique category ID
+  }
   constructor(
     private readonly fb: FormBuilder,
     private readonly menuItemsService: MenuItemsService,
@@ -35,7 +37,7 @@ export class MenuItemCreateModalComponent {
       price: [1, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?(\.\d+)?(?<=\d)$/)]],
       imageUrl: [''],
       barCode: [''],
-      category: ['Burger', Validators.required],
+      categoriesIds: [null, Validators.required],
     });
   }
 
@@ -46,9 +48,12 @@ export class MenuItemCreateModalComponent {
 
   // Function to handle form submission
   createMenuItem(): void {
+    console.log(this.menuItemForm.value);
     if (this.menuItemForm.valid) {
       this.menuItemForm.get('imageUrl')?.enable();
       const submissionValues = this.menuItemForm.getRawValue();
+
+      console.log(submissionValues);
       delete submissionValues.useDefaultImage; // removing boolean from submit values
       this.menuItemsService.createMenuItem(submissionValues).subscribe({
         next: (MenuItem: MenuItem) => {
