@@ -25,7 +25,6 @@ export class ReviewsTableItemComponent implements OnInit {
   ngOnInit(): void {}
 
   openUpdateModal() {
-    console.log(this.review)
     this.store.dispatch(openUpdateReviewModal({ review: this.review }));
   }
 

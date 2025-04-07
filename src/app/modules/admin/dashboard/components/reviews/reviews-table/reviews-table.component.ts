@@ -76,7 +76,6 @@ export class ReviewsTableComponent implements OnInit {
   }
 
   openCreateModal() {
-    console.log('Dispatching openCreateReviewModal action');
     this.store.dispatch(openCreateReviewModal());
   }
 

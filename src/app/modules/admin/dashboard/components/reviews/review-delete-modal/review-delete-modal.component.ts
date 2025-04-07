@@ -25,7 +25,6 @@ export class ReviewDeleteModalComponent {
     );
   }
   ngOnInit(): void {
-    console.log(this.reviewIdToDelete);
   }
 
   deleteReview(): void {

@@ -66,6 +66,19 @@
               placeholder="Write category description here"></textarea>
           </div>
           <div class="col-span-2">
+            <label for="category" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >Image<span class="text-red-500">*</span></label
+          >
+            <div class="card flex justify-center">
+              <p-fileUpload 
+              mode="basic" 
+              chooseLabel="choose image " 
+              chooseIcon="pi pi-upload"
+              name="demo[]" 
+              accept="image/*" 
+              (onSelect)="onFileSelected($event)" /></div>
+          </div>
+          <div class="col-span-2">
             <button
               type="submit"
               class="inline-flex items-center rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white">

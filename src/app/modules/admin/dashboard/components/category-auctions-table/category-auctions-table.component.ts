@@ -97,7 +97,6 @@ export class CategoryAuctionsTableComponent {
   }
 
   openCreateModal() {
-    console.log('Dispatching openCreateCatgoryModal action');
     this.store.dispatch(openCreateCategoryModal());
   }
 
@@ -154,17 +153,13 @@ export class CategoryAuctionsTableComponent {
 
   toggleAllSelection(): void {
     const allSelected = this.isAllSelected();
-    console.log('Current selection state:', allSelected ? 'All Selected' : 'Not All Selected');
 
     if (allSelected) {
-      console.log('Deselecting all items');
       this.selectedItemIds.clear();
     } else {
-      console.log('Selecting all items');
       this.categories.forEach((item) => this.selectedItemIds.add(item.id));
     }
 
-    console.log('Selected item IDs:', Array.from(this.selectedItemIds));
     this.cdRef.detectChanges();
   }
 

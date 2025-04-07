@@ -22,7 +22,7 @@ export class OrdersTableItemComponent implements OnInit {
     this.currentUser$ = this.store.pipe(select(selectCurrentUser));
   }
 
-  ngOnInit(): void {console.log(this.order.id)}
+  ngOnInit(): void {}
 
   openUpdateModal() {
     this.store.dispatch(openUpdateOrderModal({ order: this.order }));

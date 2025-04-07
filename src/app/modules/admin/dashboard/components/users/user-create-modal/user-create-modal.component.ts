@@ -46,7 +46,6 @@ export class UserCreateModalComponent {
         ...this.userForm.value,
         confirmPassword: this.userForm.value.password, // Automatically set confirmPassword to match password
       };
-      console.log(userData);
       this.userService.createUser(userData).subscribe({
         next: (user: User) => {
           this.closeModal();

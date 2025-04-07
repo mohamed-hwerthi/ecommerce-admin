@@ -19,8 +19,6 @@ export const initialState: ModalState = {
 export const categoryModalReducer = createReducer(
   initialState,
   on(ModalActions.openCreateCategoryModal, (state) => {
-    console.log('kldfjlksdjfljskl');
-    console.log(initialState.createCategory);
     return { ...state, createCategory: true };
   }),
 

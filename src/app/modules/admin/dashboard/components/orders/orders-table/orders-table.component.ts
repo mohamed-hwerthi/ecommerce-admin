@@ -69,7 +69,6 @@ export class OrdersTableComponent implements OnInit {
   }
 
   openCreateModal() {
-    console.log('Dispatching openCreateOrderModal action');
     this.store.dispatch(openCreateOrderModal());
   }
 

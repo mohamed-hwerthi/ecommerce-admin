@@ -30,7 +30,6 @@ export class CategoryDeleteModalComponent {
   }
 
   deleteCategory(): void {
-    console.log('delte category modal');
     if (!this.categoryIdToDelete) {
       this.toastr.error('Category  ID to delete not provided!');
       return;

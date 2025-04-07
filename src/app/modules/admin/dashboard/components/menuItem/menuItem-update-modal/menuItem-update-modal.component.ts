@@ -6,38 +6,45 @@ import { ToastrService } from 'ngx-toastr';
 import { closeUpdateMenuItemModal } from '../../../../../../core/state/modal/menuItem/modal.actions';
 import { selectMenuItemToUpdate } from '../../../../../../core/state/modal/menuItem/modal.selectors';
 import { MenuItemsService } from '../../../../../../services/menuItems.service';
+import { CategoryService } from 'src/app/services/category.service';
+import { CategoryDTO } from 'src/app/core/models/category.model';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @Component({
   selector: '[menuItem-update-modal]',
   templateUrl: './menuItem-update-modal.component.html',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule , MultiSelectModule],
 })
 export class MenuItemUpdateModalComponent implements OnInit {
   menuItemForm: FormGroup;
   // menuItems$: Observable<MenuItem[]>;
   private currentMenuItemId: number | null = null;
+  allCategories: CategoryDTO[] = [];
 
   constructor(
     private readonly fb: FormBuilder,
     private  readonly store: Store,
     private readonly  menuItemsService: MenuItemsService,
     private  readonly toastr: ToastrService,
+    private readonly categoryService:CategoryService
   ) {
     // Initialize the form with structure
     this.menuItemForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
       price: [1, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?(\.\d+)?(?<=\d)$/)]],
-      category: ['Burger',Validators.required],
-      imageUrl: ['', ],
+      categories: [null, Validators.required],
+      barCode: [''],
+
     });
 
     // this.menuItems$ = this.menuItemsService.getAllMenuItems();
   }
 
   ngOnInit(): void {
-    // Subscribe to the current MenuItem to update
+
+    this.loadCategories();
     this.store.select(selectMenuItemToUpdate).subscribe((menuItem) => {
       if (menuItem) {
         this.currentMenuItemId = menuItem.id;
@@ -45,8 +52,8 @@ export class MenuItemUpdateModalComponent implements OnInit {
           title: menuItem.title,
           description: menuItem.description,
           price: menuItem.price,
-          category: menuItem.category,
-          imageUrl: menuItem.imageUrl,
+          categories: menuItem.categories,
+          barCode:menuItem.barCode
         });
       }
     });
@@ -75,7 +82,16 @@ export class MenuItemUpdateModalComponent implements OnInit {
 
     }
   }
-
+  loadCategories(): void {
+    this.categoryService.findAllCategories().subscribe({
+      next: (res: CategoryDTO[]) => {
+        this.allCategories = res;
+      },
+      error: (error) => {
+        this.toastr.error('Error fetching categories:', error);
+      },
+    });
+  }
   closeModal(): void {
     this.store.dispatch(closeUpdateMenuItemModal());
   }

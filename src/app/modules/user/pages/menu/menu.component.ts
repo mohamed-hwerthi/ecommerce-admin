@@ -1,19 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MenuItem, PaginatedResponseDTO } from '../../../../core/models';
-import { MenuItemsService } from '../../../../services/menuItems.service';
-import { FoodCardComponent } from './food-card/food-card.component';
-import { FoodCategoryComponent } from './food-category/food-category.component';
-import { LoaderComponent } from '../../../../shared/components/loader/loader.component';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, Observable, Subscription, switchMap } from 'rxjs';
+import { MenuItem, PaginatedResponseDTO } from '../../../../core/models';
 import {
   selectIsCreateReviewUserModalOpen,
   selectIsUserReviewsModalOpen,
 } from '../../../../core/state/modal/review/modal.selectors';
-import { Store } from '@ngrx/store';
-import { UserReviewsModalComponent } from './user-reviews-modal/user-reviews-modal.component';
+import { MenuItemsService } from '../../../../services/menuItems.service';
+import { LoaderComponent } from '../../../../shared/components/loader/loader.component';
+import { FoodCardComponent } from './food-card/food-card.component';
+import { FoodCategoryComponent } from './food-category/food-category.component';
 import { SubmitUserReviewModal } from './submit-review-modal/submit-review-modal.component';
+import { UserReviewsModalComponent } from './user-reviews-modal/user-reviews-modal.component';
 
 @Component({
   selector: 'app-menu',
@@ -33,8 +33,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   allMenuItems: MenuItem[] = [];
   displayMenuItems: MenuItem[] = [];
   isLoading = true;
-  selectedCategory: string = 'burger';
-  lastCategory: string = 'burger';
+  selectedCategory!: number ;
+  lastCategory!:number;
   itemsPerPage = 6; // Number of items to load
   currentPage = 1;
   showSubmitReviewModal$!: Observable<boolean>;
@@ -43,7 +43,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private queryParamsSubscription!: Subscription;
   private reviewNotificationSubscription!: Subscription;
 
-  constructor(private menuItemsService: MenuItemsService, private route: ActivatedRoute, private store: Store) {}
+  constructor(private   readonly  menuItemsService: MenuItemsService, private  readonly  route: ActivatedRoute, private readonly  store: Store) {}
 
   ngOnInit(): void {
     this.showSubmitReviewModal$ = this.store.select(selectIsCreateReviewUserModalOpen);
@@ -54,13 +54,14 @@ export class MenuComponent implements OnInit, OnDestroy {
       debounceTime(300), // Debounce to avoid rapid consecutive fetches
       distinctUntilChanged(), // Only fetch if there is a change in category
       switchMap(params => {
-        const category = params['category'] || 'burger';
-        const categoryChanged = this.selectedCategory !== category;
+        const categoryId = params['category'] ;
+        const categoryChanged = this.selectedCategory !== categoryId;
 
         // Update selected category and fetch items if necessary
         if (categoryChanged || !this.allMenuItems.length) {
-          this.selectedCategory = category;
-          return this.menuItemsService.getAllMenuItems(1, 100);
+          this.selectedCategory = categoryId;
+          console.log(typeof (this.selectedCategory));
+          return this.menuItemsService.getAllMenuItems(1, 100 );
         } else {
           return [];
         }
@@ -93,6 +94,7 @@ fetchMenuItems(forceFetch: boolean = false): void {
     this.menuItemsService.getAllMenuItems(1, 100).subscribe({
       next: (response: PaginatedResponseDTO<MenuItem>) => {
         this.allMenuItems = response.items; // Saving all items then only filter based on selected category
+        console.log(this.allMenuItems);
         // Filter immediately after fetching based on the selected category
         this.filterItemsByCategory();
         this.isLoading = false;
@@ -114,14 +116,19 @@ fetchMenuItems(forceFetch: boolean = false): void {
       this.currentPage = 1;
       this.lastCategory = this.selectedCategory;
     }
-
+    console.log("this.selectedCategory");
+    console.log(this.selectedCategory);
     const filteredItems = this.allMenuItems.filter(
-      (item) => item.category.toLowerCase() === this.selectedCategory.toLowerCase(),
+      (item) => item.categories.some((category) => category.id == this.selectedCategory)
     );
+    console.log("kgjflsdkjfklsfjlsf");
+    console.log(filteredItems);
 
     // Only show items up to the current page
     //creates a new array rather than mutating it
     this.displayMenuItems = [...filteredItems.slice(0, this.currentPage * this.itemsPerPage)];
+    console.log("displayMenuItems");
+    console.log(this.displayMenuItems);
   }
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(): void {

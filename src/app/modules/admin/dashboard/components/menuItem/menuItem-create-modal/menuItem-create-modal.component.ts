@@ -1,23 +1,36 @@
-import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
-import { MenuItem } from '../../../../../../core/models';
-import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MenuItemsService } from '../../../../../../services/menuItems.service';
-import { closeCreateMenuItemModal } from '../../../../../../core/state/modal/menuItem/modal.actions';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
-import { CategoryService } from 'src/app/services/category.service';
+import { MessageService } from 'primeng/api';
+import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { CategoryDTO } from 'src/app/core/models/category.model';
+import { MediaService } from 'src/app/modules/admin/layout/services/media.service';
+import { CategoryService } from 'src/app/services/category.service';
+import { MenuItem } from '../../../../../../core/models';
+import { closeCreateMenuItemModal } from '../../../../../../core/state/modal/menuItem/modal.actions';
+import { MenuItemsService } from '../../../../../../services/menuItems.service';
+import { Media } from 'src/app/core/models/media.model';
+
+
+
 
 @Component({
   selector: '[menuItem-create-modal]',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule , DropdownModule ,MultiSelectModule , FileUploadModule],
+  providers:   [MessageService],
+
   templateUrl: './menuItem-create-modal.component.html',
 })
 export class MenuItemCreateModalComponent {
   menuItemForm: FormGroup;
   allCategories: CategoryDTO[] = [];
+  selectedFile: File | null = null;
+
   defaultImageUrl: URL = new URL(
     'https://w0.peakpx.com/wallpaper/97/150/HD-wallpaper-mcdonalds-double-cheese-burger-double-mcdonalds-cheese-burger-thumbnail.jpg',
   );
@@ -30,6 +43,8 @@ export class MenuItemCreateModalComponent {
     private readonly store: Store,
     private readonly toastr: ToastrService,
     private readonly categoryService: CategoryService,
+    private  readonly  messageService: MessageService  , 
+    private readonly mediaService  :MediaService
   ) {
     this.menuItemForm = this.fb.group({
       title: ['', Validators.required],
@@ -37,7 +52,7 @@ export class MenuItemCreateModalComponent {
       price: [1, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?(\.\d+)?(?<=\d)$/)]],
       imageUrl: [''],
       barCode: [''],
-      categoriesIds: [null, Validators.required],
+      categories: [null, Validators.required],
     });
   }
 
@@ -48,34 +63,78 @@ export class MenuItemCreateModalComponent {
 
   // Function to handle form submission
   createMenuItem(): void {
-    console.log(this.menuItemForm.value);
-    if (this.menuItemForm.valid) {
-      this.menuItemForm.get('imageUrl')?.enable();
-      const submissionValues = this.menuItemForm.getRawValue();
+    if (!this.menuItemForm.valid) {
+      this.showFormErrors();
+      return;
+    }
+  
+    const submissionValues = this.menuItemForm.getRawValue();
+  
+    if (this.selectedFile) {
 
-      console.log(submissionValues);
-      delete submissionValues.useDefaultImage; // removing boolean from submit values
-      this.menuItemsService.createMenuItem(submissionValues).subscribe({
-        next: (MenuItem: MenuItem) => {
-          this.toastr.success('Menu Item created successfully!');
-          this.closeModal();
-          this.resetForm(); // Reset form to default state after creation
-          this.menuItemsService.menuItemCreated(MenuItem); // Notify about the new MenuItem !!! VERY IMPORTANT- REFETCH THE TABLE
-        },
-        error: (error: any) => this.toastr.error('Error creating menu item!', error),
-      });
+      this.uploadMediaAndCreateMenuItem(submissionValues, this.selectedFile);
     } else {
-      this.menuItemForm.markAllAsTouched();
-      // If the form is invalid, iterate over the controls and log the errors
-      Object.keys(this.menuItemForm.controls).forEach((key) => {
-        const control = this.menuItemForm.get(key);
-        const errors = control?.errors ?? {};
-        Object.keys(errors).forEach((keyError) => {
-          this.toastr.error(`Form Invalid - control: ${key}, Error: ${keyError}`);
-        });
-      });
+      this.createMenuItemDirectly(submissionValues);
     }
   }
+  
+  /**
+   * Handles direct menu item creation when no file is selected.
+   */
+  private createMenuItemDirectly(submissionValues: any): void {
+    this.menuItemsService.createMenuItem(submissionValues).subscribe({
+      next: (menuItem: MenuItem) => this.handleSuccess(menuItem),
+      error: (error: any) => this.toastr.error('Error creating menu item!', error?.message || 'Unknown error'),
+    });
+  }
+  
+  /**
+   * Handles media upload then creates the menu item with the uploaded media ID.
+   */
+  private uploadMediaAndCreateMenuItem(submissionValues: any, file: File): void {
+    this.mediaService.uploadFile(file).subscribe({
+      next: (media: Media) => {
+        submissionValues.medias =  [media]; 
+        this.createMenuItemDirectly(submissionValues);
+      },
+      error: (error: any) => this.toastr.error('Error uploading media file!', error?.message || 'Unknown error'),
+    });
+  }
+  
+  /**
+   * Handles success response after menu item is created.
+   */
+  private handleSuccess(menuItem: MenuItem): void {
+    this.toastr.success('Menu Item created successfully!');
+    this.closeModal();
+    this.resetForm();
+    this.menuItemsService.menuItemCreated(menuItem); // Notify table or other listeners
+  }
+  
+  /**
+   * Marks all form fields and shows validation errors using toastr.
+   */
+  private showFormErrors(): void {
+    this.menuItemForm.markAllAsTouched();
+  
+    Object.entries(this.menuItemForm.controls).forEach(([key, control]) => {
+      if (control.errors) {
+        Object.keys(control.errors).forEach((keyError) => {
+          this.toastr.error(`Form Invalid - Control: ${key}, Error: ${keyError}`);
+        });
+      }
+    });
+  }
+  
+  
+
+  onFileSelected(event: any): void {
+    const file = event.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
 
   closeModal(): void {
     this.store.dispatch(closeCreateMenuItemModal());

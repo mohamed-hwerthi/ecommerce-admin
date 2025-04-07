@@ -24,8 +24,6 @@ const envConfigFile = `export const environment = {
 // Write the environment file
 fs.writeFile(targetPath, envConfigFile, 'utf8', (err) => {
   if (err) {
-    return console.log(err);
   }
 
-  console.log(`Environment variables were successfully written to ${targetPath}`);
 });

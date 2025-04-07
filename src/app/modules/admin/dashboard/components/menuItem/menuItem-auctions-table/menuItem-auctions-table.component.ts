@@ -1,18 +1,20 @@
-import { Observable, Subscription, interval, startWith, switchMap } from 'rxjs';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { MenuItemAuctionsTableItemComponent } from '../menuItem-auctions-table-item/menuItem-auctions-table-item.component';
 import { CommonModule, NgFor } from '@angular/common';
-import { MenuItemsService } from '../../../../../../services/menuItems.service';
-import { MenuItem, PaginatedResponseDTO } from '../../../../../../core/models';
-import { LoaderComponent } from '../../../../../../shared/components/loader/loader.component';
-import { AngularSvgIconModule } from 'angular-svg-icon';
-import { ButtonComponent } from '../../../../../../shared/components/button/button.component';
-import { openCreateMenuItemModal } from '../../../../../../core/state/modal/menuItem/modal.actions';
-import { Store } from '@ngrx/store';
-import { PaginationComponent } from '../../../../../../shared/components/pagination/pagination.component';
-import { ToastrService } from 'ngx-toastr';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+import { ToastrService } from 'ngx-toastr';
+import { Observable, Subscription, interval, startWith, switchMap } from 'rxjs';
+import { CategoryDTO } from 'src/app/core/models/category.model';
+import { CategoryService } from 'src/app/services/category.service';
+import { MenuItem, PaginatedResponseDTO } from '../../../../../../core/models';
+import { openCreateMenuItemModal } from '../../../../../../core/state/modal/menuItem/modal.actions';
+import { MenuItemsService } from '../../../../../../services/menuItems.service';
+import { ButtonComponent } from '../../../../../../shared/components/button/button.component';
+import { LoaderComponent } from '../../../../../../shared/components/loader/loader.component';
+import { PaginationComponent } from '../../../../../../shared/components/pagination/pagination.component';
+import { MenuItemAuctionsTableItemComponent } from '../menuItem-auctions-table-item/menuItem-auctions-table-item.component';
 
 @Component({
   selector: '[menuItem-auctions-table]',
@@ -30,9 +32,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   ],
 })
 export class MenuItemAuctionsTableComponent implements OnInit {
+
   public menuItems: MenuItem[] = [];
   public isLoading: boolean = true;
   public currentPage = 1;
+    allCategories: CategoryDTO[] = [];
+  
   public totalPages!: number;
   public timeSinceLastUpdate$!: Observable<number>;
   public lastUpdated: Date = new Date();
@@ -50,10 +55,12 @@ export class MenuItemAuctionsTableComponent implements OnInit {
     private readonly  toastr: ToastrService,
     private   readonly  route: ActivatedRoute,
     private readonly  router: Router,
-    private  readonly  cdRef: ChangeDetectorRef
+    private  readonly  cdRef: ChangeDetectorRef , 
+    private readonly categoryService:CategoryService
   ) {}
 
   ngOnInit(): void {
+    this.loadCategories();
     this.route.queryParams.subscribe((params) => {
       this.currentPage = +params['page'] || 1;
       this.categoryFilter = params['category'] || '';
@@ -107,7 +114,6 @@ export class MenuItemAuctionsTableComponent implements OnInit {
   }
 
   openCreateModal() {
-    console.log('Dispatching openCreateOrderModal action');
     this.store.dispatch(openCreateMenuItemModal());
   }
 
@@ -165,20 +171,20 @@ export class MenuItemAuctionsTableComponent implements OnInit {
       this.selectedItemIds.add(id);
     }
   }
+  filterByCategory(categoryId:number) {
+    console.log(categoryId);
+    throw new Error('Method not implemented.');
+    }
 
   toggleAllSelection(): void {
     const allSelected = this.isAllSelected();
-    console.log('Current selection state:', allSelected ? 'All Selected' : 'Not All Selected');
 
     if (allSelected) {
-      console.log('Deselecting all items');
       this.selectedItemIds.clear();
     } else {
-      console.log('Selecting all items');
       this.menuItems.forEach(item => this.selectedItemIds.add(item.id));
     }
 
-    console.log('Selected item IDs:', Array.from(this.selectedItemIds));
      this.cdRef.detectChanges();
   }
 
@@ -215,6 +221,16 @@ export class MenuItemAuctionsTableComponent implements OnInit {
       }
     });
   }
+  loadCategories(): void {
+    this.categoryService.findAllCategories().subscribe({
+      next: (res: CategoryDTO[]) => {
+        this.allCategories = res;
+      },
+      error: (error) => {
+        this.toastr.error('Error fetching categories:', error);
+      },
+    });
 
+}
 
 }

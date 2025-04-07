@@ -1,6 +1,4 @@
 
-import { MenuItem } from './food-menu-item.model';
-import { Order } from './order.model';
 
 export interface User {
   id: string;

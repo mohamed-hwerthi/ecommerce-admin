@@ -64,7 +64,6 @@ export class OverviewComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
-        console.log('Error fetching items:', error);
         this.isLoading = false;
       },
     });

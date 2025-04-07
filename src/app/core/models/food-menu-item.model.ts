@@ -1,4 +1,5 @@
-import { Order } from './order.model';
+import { CategoryDTO } from './category.model';
+import { Media } from './media.model';
 
 export interface MenuItem {
   id: number; // Unique identifier for the menu item.
@@ -7,10 +8,12 @@ export interface MenuItem {
   price: number; // Price of the menu item.
   imageUrl: URL; // URL to the image of the menu item.
   salesCount: number;
-  category: string;
+  categories:CategoryDTO[];
   defaultItem: boolean; //Determinate if item is created by admin or normal user
   reviewCount: number;
   averageRating: number;
+  barCode:string ;
+  medias:Media[] ;
 }
 
 export interface PaginatedResponseDTO<T> {

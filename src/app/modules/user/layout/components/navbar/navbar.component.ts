@@ -40,9 +40,7 @@ export class NavbarComponent {
   }
 
   switchLanguage(event: any): void {
-    console.log("kdjfkdjfkdjkfj");
     const selectElement = event.target as HTMLSelectElement;
-    console.log(selectElement.value);
     const language = selectElement.value;
 
     // Set the selected language

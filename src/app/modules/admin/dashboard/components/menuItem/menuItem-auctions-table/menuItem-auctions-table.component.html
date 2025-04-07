@@ -39,15 +39,10 @@
   <div class="mb-2 flex flex-col gap-4 md:flex-row md:gap-4">
     <!-- Category Filter Dropdown -->
     <select [(ngModel)]="categoryFilter" (ngModelChange)="applyFiltersAndSorting()" class="border-2 border-primary/50">
-      <option value="">All Categories</option>
-      <option [value]="'PIZZA'">Pizza</option>
-      <option [value]="'BURGER'">Burger</option>
-      <option [value]="'PASTA'">Pasta</option>
-      <option [value]="'SUSHI'">Sushi</option>
-      <option [value]="'SALAD'">Salad</option>
-      <option [value]="'TACOS'">Tacos</option>
-      <option [value]="'DESSERT'">Dessert</option>
-      <option [value]="'OTHER'">Other</option>
+       @for (category of allCategories; track $index) {
+        <option  [value]="category.id"> {{category.name}}</option>
+       } 
+    
     </select>
 
     <!-- Price Sort Dropdown -->
@@ -79,8 +74,6 @@
           <th class="py-3">Price</th>
           <th class="py-3">Sales</th>
           <th class="py-3">Profit</th>
-          <th class="py-3">Category</th>
-          <th class="py-3">Default</th>
           <th class="py-3">Rating</th>
           <th class="py-3">Reviews</th>
           <th class="py-3 text-end">Actions</th>

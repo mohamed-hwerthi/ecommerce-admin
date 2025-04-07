@@ -30,7 +30,6 @@ export class AuthInterceptor implements HttpInterceptor {
           this.isRefreshing = true;
           return this.authService.refreshToken().pipe(
             switchMap((newAccessToken: string) => {
-              console.log('New access token obtained:', newAccessToken);
               localStorage.setItem('accessToken', newAccessToken);
               this.isRefreshing = false; // Reset the flag
               // Retry the failed request with the new token

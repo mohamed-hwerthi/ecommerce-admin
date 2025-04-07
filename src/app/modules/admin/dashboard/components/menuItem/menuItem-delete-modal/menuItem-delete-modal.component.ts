@@ -24,7 +24,6 @@ export class MenuItemDeleteModalComponent {
   ) {
     this.subscription.add(
       this.store.select(selectDeleteMenuItemId).subscribe((MenuItemId) => {
-        console.log(MenuItemId);
         this.menuItemIdToDelete = MenuItemId;
       }),
     );

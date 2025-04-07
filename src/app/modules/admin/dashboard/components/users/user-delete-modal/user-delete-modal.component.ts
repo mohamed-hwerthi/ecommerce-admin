@@ -24,7 +24,6 @@ export class UserDeleteModalComponent {
     );
   }
   ngOnInit(): void {
-    console.log(this.userIdToDelete);
   }
 
   deleteUser(): void {

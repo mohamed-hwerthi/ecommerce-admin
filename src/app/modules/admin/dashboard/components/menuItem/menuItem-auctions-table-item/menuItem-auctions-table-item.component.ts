@@ -11,6 +11,7 @@ import {
 } from '../../../../../../core/state/modal/menuItem/modal.actions';
 import { selectCurrentUser } from '../../../../../../core/state/auth/auth.selectors';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: '[menuItem-auctions-table-item]',
@@ -77,6 +78,14 @@ export class MenuItemAuctionsTableItemComponent implements OnInit {
         return 'success'; // Blue color for excellent reviews
       default:
         return 'light'; // Default tone
+    }
+  }
+  getMenuItemImage(menuItem: MenuItem): string {
+    if(menuItem.medias.length > 0) {
+      return  environment.apiStaticUrl + menuItem.medias[0].url;
+    }
+    else{
+      return "";
     }
   }
   getCategoryTone(category: string): 'primary' | 'danger' | 'success' | 'warning' | 'info' | 'light' {

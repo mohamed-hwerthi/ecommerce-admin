@@ -25,7 +25,6 @@ export class OrderDeleteModalComponent {
     );
   }
   ngOnInit(): void {
-    console.log(this.orderIdToDelete);
   }
 
   deleteOrder(): void {

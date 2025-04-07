@@ -46,9 +46,7 @@ export class UserUpdateModalComponent {
 
   ngOnInit(): void {
     this.store.select(selectUserToUpdate).subscribe((user) => {
-      console.log(user);
       if (user) {
-        console.log(user.role)
         this.currentUserId = user.id;
         this.userForm.patchValue({
           email: user.email,

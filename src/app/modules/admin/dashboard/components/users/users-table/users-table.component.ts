@@ -69,7 +69,6 @@ export class UsersTableComponent implements OnInit, OnDestroy {
   }
 
   openCreateModal(): void {
-    console.log('Dispatching openCreateUserModal action');
     this.store.dispatch(openCreateUserModal());
   }
 
