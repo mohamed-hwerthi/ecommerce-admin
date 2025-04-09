@@ -5,24 +5,21 @@ import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CategoryDTO } from 'src/app/core/models/category.model';
+import { Media } from 'src/app/core/models/media.model';
 import { MediaService } from 'src/app/modules/admin/layout/services/media.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { MenuItem } from '../../../../../../core/models';
 import { closeCreateMenuItemModal } from '../../../../../../core/state/modal/menuItem/modal.actions';
 import { MenuItemsService } from '../../../../../../services/menuItems.service';
-import { Media } from 'src/app/core/models/media.model';
-
-
-
 
 @Component({
   selector: '[menuItem-create-modal]',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule , DropdownModule ,MultiSelectModule , FileUploadModule],
-  providers:   [MessageService],
+  imports: [ReactiveFormsModule, CommonModule, DropdownModule, MultiSelectModule, FileUploadModule],
+  providers: [MessageService],
 
   templateUrl: './menuItem-create-modal.component.html',
 })
@@ -43,8 +40,7 @@ export class MenuItemCreateModalComponent {
     private readonly store: Store,
     private readonly toastr: ToastrService,
     private readonly categoryService: CategoryService,
-    private  readonly  messageService: MessageService  , 
-    private readonly mediaService  :MediaService
+    private readonly mediaService: MediaService,
   ) {
     this.menuItemForm = this.fb.group({
       title: ['', Validators.required],
@@ -67,17 +63,16 @@ export class MenuItemCreateModalComponent {
       this.showFormErrors();
       return;
     }
-  
-    const submissionValues = this.menuItemForm.getRawValue();
-  
-    if (this.selectedFile) {
 
+    const submissionValues = this.menuItemForm.getRawValue();
+
+    if (this.selectedFile) {
       this.uploadMediaAndCreateMenuItem(submissionValues, this.selectedFile);
     } else {
       this.createMenuItemDirectly(submissionValues);
     }
   }
-  
+
   /**
    * Handles direct menu item creation when no file is selected.
    */
@@ -87,20 +82,20 @@ export class MenuItemCreateModalComponent {
       error: (error: any) => this.toastr.error('Error creating menu item!', error?.message || 'Unknown error'),
     });
   }
-  
+
   /**
    * Handles media upload then creates the menu item with the uploaded media ID.
    */
   private uploadMediaAndCreateMenuItem(submissionValues: any, file: File): void {
     this.mediaService.uploadFile(file).subscribe({
       next: (media: Media) => {
-        submissionValues.medias =  [media]; 
+        submissionValues.medias = [media];
         this.createMenuItemDirectly(submissionValues);
       },
       error: (error: any) => this.toastr.error('Error uploading media file!', error?.message || 'Unknown error'),
     });
   }
-  
+
   /**
    * Handles success response after menu item is created.
    */
@@ -110,13 +105,13 @@ export class MenuItemCreateModalComponent {
     this.resetForm();
     this.menuItemsService.menuItemCreated(menuItem); // Notify table or other listeners
   }
-  
+
   /**
    * Marks all form fields and shows validation errors using toastr.
    */
   private showFormErrors(): void {
     this.menuItemForm.markAllAsTouched();
-  
+
     Object.entries(this.menuItemForm.controls).forEach(([key, control]) => {
       if (control.errors) {
         Object.keys(control.errors).forEach((keyError) => {
@@ -125,8 +120,6 @@ export class MenuItemCreateModalComponent {
       }
     });
   }
-  
-  
 
   onFileSelected(event: any): void {
     const file = event.files[0];
@@ -134,7 +127,6 @@ export class MenuItemCreateModalComponent {
       this.selectedFile = file;
     }
   }
-
 
   closeModal(): void {
     this.store.dispatch(closeCreateMenuItemModal());

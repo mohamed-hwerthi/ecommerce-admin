@@ -8,12 +8,11 @@ export interface MenuItem {
   price: number; // Price of the menu item.
   imageUrl: URL; // URL to the image of the menu item.
   salesCount: number;
-  categories:CategoryDTO[];
-  defaultItem: boolean; //Determinate if item is created by admin or normal user
+  categories: CategoryDTO[];
   reviewCount: number;
   averageRating: number;
-  barCode:string ;
-  medias:Media[] ;
+  barCode: string;
+  medias: Media[];
 }
 
 export interface PaginatedResponseDTO<T> {

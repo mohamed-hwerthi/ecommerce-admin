@@ -3,20 +3,15 @@
     class="z-10 mx-auto w-full max-w-md overflow-hidden rounded-3xl border-2 border-primary bg-white shadow-md shadow-primary dark:bg-transparent">
     <div class="group mx-auto max-w-md cursor-pointer transition duration-500 hover:scale-105">
       <div class="aspect-w-16 aspect-h-9 relative bg-gray-200">
-        <!-- Always display the compressed image initially -->
         <img
-          src="./assets/images/compress.jpg"
-          class="absolute top-0 left-0 h-full w-full object-cover blur"
-          loading="lazy" />
-
-        <!-- High-quality image with direct event binding to change its visibility -->
-        <img
-          [hidden]="!imageLoaded"
-          (load)="imageLoaded = true"
-          [src]="item.imageUrl"
+          [src]="getMenuItemImage()"
           alt="{{ item.title }}"
           class="absolute top-0 left-0 h-full w-full object-cover"
           loading="lazy" />
+
+        <!-- Always display the compressed image initially -->
+
+        <!-- High-quality image with direct event binding to change its visibility -->
       </div>
       <div class="flex min-h-[300px] flex-col p-4 sm:p-6">
         <p class="mb-1 text-[22px] font-bold leading-7 text-gray-700 dark:text-white">{{ item.title }}</p>

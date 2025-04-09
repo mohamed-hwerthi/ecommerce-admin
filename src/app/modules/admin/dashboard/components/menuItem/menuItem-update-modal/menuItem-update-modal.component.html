@@ -24,7 +24,7 @@
         </button>
       </div>
       <!-- Modal body -->
-      <form class="p-4 md:p-5" [formGroup]="menuItemForm" (ngSubmit)="updateMenuItem()">
+      <form class="p-4 md:p-5" [formGroup]="menuItemForm" (ngSubmit)="handelMenuItemUpdating()">
         <div class="mb-4 grid grid-cols-2 gap-4">
           <div class="col-span-2">
             <label for="title" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
@@ -111,6 +111,19 @@
               placeholder=" Bar Code"
               required
               autocomplete="code-bar" />
+          </div>
+          <div class="col-span-2">
+            <label for="category" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >Image<span class="text-red-500">*</span></label
+          >
+            <div class="card flex justify-center">
+              <p-fileUpload 
+              mode="basic" 
+              chooseLabel="choose image " 
+              chooseIcon="pi pi-upload"
+              name="demo[]" 
+              accept="image/*" 
+              (onSelect)="onFileSelected($event)" /></div>
           </div>
           <div class="col-span-2">
             <button
