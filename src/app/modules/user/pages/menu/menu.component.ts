@@ -33,8 +33,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   allMenuItems: MenuItem[] = [];
   displayMenuItems: MenuItem[] = [];
   isLoading = true;
-  selectedCategory!: number ;
-  lastCategory!:number;
+  selectedCategory!: number;
+  lastCategory!: number;
   itemsPerPage = 6; // Number of items to load
   currentPage = 1;
   showSubmitReviewModal$!: Observable<boolean>;
@@ -43,42 +43,47 @@ export class MenuComponent implements OnInit, OnDestroy {
   private queryParamsSubscription!: Subscription;
   private reviewNotificationSubscription!: Subscription;
 
-  constructor(private   readonly  menuItemsService: MenuItemsService, private  readonly  route: ActivatedRoute, private readonly  store: Store) {}
+  constructor(
+    private readonly menuItemsService: MenuItemsService,
+    private readonly route: ActivatedRoute,
+    private readonly store: Store,
+  ) {}
 
   ngOnInit(): void {
     this.showSubmitReviewModal$ = this.store.select(selectIsCreateReviewUserModalOpen);
     this.showUserReviewsModal$ = this.store.select(selectIsUserReviewsModalOpen);
 
     // Listen for any changes in the URL query parameters
-    this.queryParamsSubscription = this.route.queryParams.pipe(
-      debounceTime(300), // Debounce to avoid rapid consecutive fetches
-      distinctUntilChanged(), // Only fetch if there is a change in category
-      switchMap(params => {
-        const categoryId = params['category'] ;
-        const categoryChanged = this.selectedCategory !== categoryId;
+    this.queryParamsSubscription = this.route.queryParams
+      .pipe(
+        debounceTime(300), // Debounce to avoid rapid consecutive fetches
+        distinctUntilChanged(), // Only fetch if there is a change in category
+        switchMap((params) => {
+          const categoryId = params['category'];
+          const categoryChanged = this.selectedCategory !== categoryId;
 
-        // Update selected category and fetch items if necessary
-        if (categoryChanged || !this.allMenuItems.length) {
-          this.selectedCategory = categoryId;
-          console.log(typeof (this.selectedCategory));
-          return this.menuItemsService.getAllMenuItems(1, 100 );
-        } else {
-          return [];
-        }
-      })
-    ).subscribe({
-      next: (response: PaginatedResponseDTO<MenuItem>) => {
-        if (response.items) {
-          this.allMenuItems = response.items;
-          this.filterItemsByCategory();
+          // Update selected category and fetch items if necessary
+          if (categoryChanged || !this.allMenuItems.length) {
+            this.selectedCategory = categoryId;
+            return this.menuItemsService.getAllMenuItems(1, 100);
+          } else {
+            return [];
+          }
+        }),
+      )
+      .subscribe({
+        next: (response: PaginatedResponseDTO<MenuItem>) => {
+          if (response.items) {
+            this.allMenuItems = response.items;
+            this.filterItemsByCategory();
+            this.isLoading = false;
+          }
+        },
+        error: (error) => {
+          console.error('Failed to fetch menu items', error);
           this.isLoading = false;
-        }
-      },
-      error: (error) => {
-        console.error('Failed to fetch menu items', error);
-        this.isLoading = false;
-      },
-    });
+        },
+      });
 
     // Listen for review submission notifications
     this.reviewNotificationSubscription = this.menuItemsService.reviewSubmitted$.subscribe(() => {
@@ -86,28 +91,26 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
   }
 
-
-fetchMenuItems(forceFetch: boolean = false): void {
-  if (!this.allMenuItems.length || forceFetch) {
-    // Check if items have already been fetched or force fetching
-    this.isLoading = true;
-    this.menuItemsService.getAllMenuItems(1, 100).subscribe({
-      next: (response: PaginatedResponseDTO<MenuItem>) => {
-        this.allMenuItems = response.items; // Saving all items then only filter based on selected category
-        console.log(this.allMenuItems);
-        // Filter immediately after fetching based on the selected category
-        this.filterItemsByCategory();
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Failed to fetch menu items', error);
-        this.isLoading = false;
-      },
-    });
-  } else {
-    this.filterItemsByCategory(); // Filter existing items if they've already been fetched
+  fetchMenuItems(forceFetch: boolean = false): void {
+    if (!this.allMenuItems.length || forceFetch) {
+      // Check if items have already been fetched or force fetching
+      this.isLoading = true;
+      this.menuItemsService.getAllMenuItems(1, 100).subscribe({
+        next: (response: PaginatedResponseDTO<MenuItem>) => {
+          this.allMenuItems = response.items; // Saving all items then only filter based on selected category
+          // Filter immediately after fetching based on the selected category
+          this.filterItemsByCategory();
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Failed to fetch menu items', error);
+          this.isLoading = false;
+        },
+      });
+    } else {
+      this.filterItemsByCategory(); // Filter existing items if they've already been fetched
+    }
   }
-}
 
   filterItemsByCategory(): void {
     // w/o this, while changing categories displayItems count will be same until page refresh
@@ -116,19 +119,13 @@ fetchMenuItems(forceFetch: boolean = false): void {
       this.currentPage = 1;
       this.lastCategory = this.selectedCategory;
     }
-    console.log("this.selectedCategory");
-    console.log(this.selectedCategory);
-    const filteredItems = this.allMenuItems.filter(
-      (item) => item.categories.some((category) => category.id == this.selectedCategory)
+    const filteredItems = this.allMenuItems.filter((item) =>
+      item.categories.some((category) => category.id == this.selectedCategory),
     );
-    console.log("kgjflsdkjfklsfjlsf");
-    console.log(filteredItems);
 
     // Only show items up to the current page
     //creates a new array rather than mutating it
     this.displayMenuItems = [...filteredItems.slice(0, this.currentPage * this.itemsPerPage)];
-    console.log("displayMenuItems");
-    console.log(this.displayMenuItems);
   }
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(): void {

@@ -32,12 +32,11 @@ import { MenuItemAuctionsTableItemComponent } from '../menuItem-auctions-table-i
   ],
 })
 export class MenuItemAuctionsTableComponent implements OnInit {
-
   public menuItems: MenuItem[] = [];
   public isLoading: boolean = true;
   public currentPage = 1;
-    allCategories: CategoryDTO[] = [];
-  
+  allCategories: CategoryDTO[] = [];
+
   public totalPages!: number;
   public timeSinceLastUpdate$!: Observable<number>;
   public lastUpdated: Date = new Date();
@@ -47,16 +46,16 @@ export class MenuItemAuctionsTableComponent implements OnInit {
   public originalMenuItems: MenuItem[] = [];
   selectedItemIds: Set<number> = new Set<number>();
 
-  private   readonly  subscriptions: Subscription = new Subscription();
+  private readonly subscriptions: Subscription = new Subscription();
 
   constructor(
-    private  readonly  menuItemsService: MenuItemsService,
-    private readonly  store: Store,
-    private readonly  toastr: ToastrService,
-    private   readonly  route: ActivatedRoute,
-    private readonly  router: Router,
-    private  readonly  cdRef: ChangeDetectorRef , 
-    private readonly categoryService:CategoryService
+    private readonly menuItemsService: MenuItemsService,
+    private readonly store: Store,
+    private readonly toastr: ToastrService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly cdRef: ChangeDetectorRef,
+    private readonly categoryService: CategoryService,
   ) {}
 
   ngOnInit(): void {
@@ -171,10 +170,9 @@ export class MenuItemAuctionsTableComponent implements OnInit {
       this.selectedItemIds.add(id);
     }
   }
-  filterByCategory(categoryId:number) {
-    console.log(categoryId);
+  filterByCategory(categoryId: number) {
     throw new Error('Method not implemented.');
-    }
+  }
 
   toggleAllSelection(): void {
     const allSelected = this.isAllSelected();
@@ -182,10 +180,10 @@ export class MenuItemAuctionsTableComponent implements OnInit {
     if (allSelected) {
       this.selectedItemIds.clear();
     } else {
-      this.menuItems.forEach(item => this.selectedItemIds.add(item.id));
+      this.menuItems.forEach((item) => this.selectedItemIds.add(item.id));
     }
 
-     this.cdRef.detectChanges();
+    this.cdRef.detectChanges();
   }
 
   isAllSelected(): boolean {
@@ -197,7 +195,7 @@ export class MenuItemAuctionsTableComponent implements OnInit {
   }
 
   getSelectedItemIds(): number[] {
-    return Array.from(this.selectedItemIds);  // Converts Set<number> to number[]
+    return Array.from(this.selectedItemIds); // Converts Set<number> to number[]
   }
 
   // Function to delete all selected items
@@ -218,7 +216,7 @@ export class MenuItemAuctionsTableComponent implements OnInit {
       },
       error: (error) => {
         this.toastr.error('Error deleting items:', error);
-      }
+      },
     });
   }
   loadCategories(): void {
@@ -230,7 +228,5 @@ export class MenuItemAuctionsTableComponent implements OnInit {
         this.toastr.error('Error fetching categories:', error);
       },
     });
-
-}
-
+  }
 }

@@ -15,7 +15,7 @@ import { Media } from 'src/app/core/models/media.model';
 @Component({
   selector: '[category-create-modal]',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule , DropdownModule ,MultiSelectModule , FileUploadModule],
+  imports: [ReactiveFormsModule, CommonModule, DropdownModule, MultiSelectModule, FileUploadModule],
   templateUrl: './category-create-modal.component.html',
   styleUrl: './category-create-modal.component.scss',
 })
@@ -28,7 +28,7 @@ export class CategoryCreateModalComponent {
     private readonly categoryService: CategoryService,
     private readonly store: Store,
     private readonly toastr: ToastrService,
-    private readonly mediaService  :MediaService
+    private readonly mediaService: MediaService,
   ) {
     this.categoryForm = this.fb.group({
       name: ['', Validators.required],
@@ -44,28 +44,24 @@ export class CategoryCreateModalComponent {
 
   ngOnInit() {}
 
-
   createCategory(): void {
     if (!this.categoryForm.valid) {
       this.showFormErrors();
       return;
     }
-    
-  
-    const submissionValues = this.categoryForm.getRawValue();
-  
-    if (this.selectedFile) {
 
+    const submissionValues = this.categoryForm.getRawValue();
+
+    if (this.selectedFile) {
       this.uploadCategoryImageAndSaveCategory(submissionValues, this.selectedFile);
     } else {
       this.createCategoryDirectly(submissionValues);
     }
   }
 
-
   private showFormErrors(): void {
     this.categoryForm.markAllAsTouched();
-  
+
     Object.entries(this.categoryForm.controls).forEach(([key, control]) => {
       if (control.errors) {
         Object.keys(control.errors).forEach((keyError) => {
@@ -75,27 +71,26 @@ export class CategoryCreateModalComponent {
     });
   }
 
-    private uploadCategoryImageAndSaveCategory(submissionValues: any, file: File): void {
-      this.mediaService.uploadFile(file).subscribe({
-        next: (media: Media) => {
-          submissionValues.medias =  [media]; 
-          this.createCategoryDirectly(submissionValues);
-        },
-        error: (error: any) => this.toastr.error('Error uploading media file!', error?.message || 'Unknown error'),
-      });
-    }
-      private createCategoryDirectly(submissionValues: any): void {
-        this.categoryService.createCategory(submissionValues).subscribe({
-          next: (category: CategoryDTO) => {
-            this.toastr.success('Category created successfully!');
-            this.closeModal();
-            this.resetForm();
-            this.categoryService.onCategoryCreated(category);
-          },
-          error: (error: any) => this.toastr.error('Error creating  Category!', error),
-        });
-      }
-      
+  private uploadCategoryImageAndSaveCategory(submissionValues: any, file: File): void {
+    this.mediaService.uploadFile(file).subscribe({
+      next: (media: Media) => {
+        submissionValues.medias = [media];
+        this.createCategoryDirectly(submissionValues);
+      },
+      error: (error: any) => this.toastr.error('Error uploading media file!', error?.message || 'Unknown error'),
+    });
+  }
+  private createCategoryDirectly(submissionValues: any): void {
+    this.categoryService.createCategory(submissionValues).subscribe({
+      next: (category: CategoryDTO) => {
+        this.toastr.success('Category created successfully!');
+        this.closeModal();
+        this.resetForm();
+        this.categoryService.onCategoryCreated(category);
+      },
+      error: (error: any) => this.toastr.error('Error creating  Category!', error),
+    });
+  }
 
   closeModal(): void {
     this.store.dispatch(closeCreateCategoryModal());

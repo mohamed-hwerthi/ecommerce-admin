@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-food-category',
   standalone: true,
-  imports: [CommonModule,TranslateModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './food-category.component.html',
   animations: [
     trigger('slideIn', [
@@ -32,61 +32,55 @@ import { environment } from 'src/environments/environment';
   ],
 })
 export class FoodCategoryComponent implements OnInit {
-  selectedCategory :any ; // Default category
+  selectedCategory: any; // Default category
   @Output() categorySelected = new EventEmitter<string>();
-  allCategories: CategoryDTO[] = [] ;
+  allCategories: CategoryDTO[] = [];
 
-  constructor(private   readonly  route: ActivatedRoute,    private readonly toastr: ToastrService,private  readonly router: Router , private readonly categoryService : CategoryService) {}
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly toastr: ToastrService,
+    private readonly router: Router,
+    private readonly categoryService: CategoryService,
+  ) {}
 
   ngOnInit(): void {
-    this.loadCategories() ;
-    
- 
+    this.loadCategories();
   }
-  loadAndSelectCategory(category: string): void {
-    
-      
-  }
+  loadAndSelectCategory(category: string): void {}
 
-  selectCategory(category:CategoryDTO): void {
+  selectCategory(category: CategoryDTO): void {
     // Navigate and update the queryParams upon selection
     this.router.navigate(['/menu'], { queryParams: { category: category.id } });
-    
   }
-   getCategoryImage(category: CategoryDTO): string {
-      if(category.medias.length > 0) {
-        return  environment.apiStaticUrl + category.medias[0].url;
-      }
-      else{
-        return "";
-      }
+  getCategoryImage(category: CategoryDTO): string {
+    if (category.medias.length > 0) {
+      return environment.apiStaticUrl + category.medias[0].url;
+    } else {
+      return '';
     }
+  }
 
-   loadCategories(): void {
+  loadCategories(): void {
+    this.categoryService.findAllCategories().subscribe({
+      next: (res: CategoryDTO[]) => {
+        this.allCategories = res;
+        this.route.queryParams.subscribe((params) => {
+          // Update selectedCategory based on queryParams or default to 'Burger'
+          this.selectedCategory = params['category'] || this.selectedCategory;
+        });
+      },
+      error: (error) => {
+        this.toastr.error('Error fetching categories:', error);
+      },
+    });
 
-    console.log("sdfndsklfhlsdhflshfkl");
-      this.categoryService.findAllCategories().subscribe({
-        next: (res: CategoryDTO[]) => {
-          this.allCategories = res;
-          console.log(this.selectedCategory);
-          this.route.queryParams.subscribe((params) => {
-
-            // Update selectedCategory based on queryParams or default to 'Burger'
-            this.selectedCategory = params['category'] || this.selectedCategory;
-          });
-        },
-        error: (error) => {
-          this.toastr.error('Error fetching categories:', error);
-        },
-      });
-  
-      // Update URL query parameters
-      /*   this.router.navigate([], {
+    // Update URL query parameters
+    /*   this.router.navigate([], {
           relativeTo: this.route,
           queryParams: { page, category: categoryFilter, sort: priceSortDirection, default: isDefault },
           queryParamsHandling: 'merge',
         }); */
-    }
+  }
 
   determineAnimation(i: number): string {
     return i < 4 ? 'slideInFromLeft' : 'slideInFromRight';
