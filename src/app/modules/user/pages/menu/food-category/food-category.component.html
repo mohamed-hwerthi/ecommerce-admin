@@ -10,38 +10,45 @@
     ">
     <div class="absolute inset-0 bg-black opacity-50"></div>
   </div>
+
   <div class="container relative z-10 mx-auto px-5 pt-24 pb-2">
     <!-- Section Title -->
     <div class="mb-4 flex w-full flex-col flex-wrap items-center text-center">
       <h1 class="title-font mb-2 text-2xl font-medium text-white sm:text-5xl">
-        {{ 'MENU.TITLE' | translate }} <span class="text-primary"> {{ 'MENU.MENU' | translate }} </span>
+        {{ 'MENU.TITLE' | translate }}
+        <span class="text-primary"> {{ 'MENU.MENU' | translate }} </span>
       </h1>
       <p class="w-full leading-relaxed text-white lg:w-1/2">
         {{ 'MENU.SUB_TITLE' | translate }}
       </p>
     </div>
 
-    <!-- Categories -->
+    <!-- Categories Grid -->
     <div class="flex flex-wrap justify-center">
-      <div *ngFor="let category of allCategories; let i = index" class="p-2">
+      <div *ngFor="let category of allCategories; let i = index" class="p-4 text-center">
+        <!-- Category Card -->
         <button
           (click)="selectCategory(category)"
           [@slideIn]="determineAnimation(i)"
           [ngClass]="
             selectedCategory === category.id
-              ? 'bg-gradient-to-tr from-primary to-transparent text-white opacity-90'
-              : 'bg-transparent text-white'
+              ? 'bg-gradient-to-tr from-primary to-transparent opacity-90'
+              : 'bg-transparent'
           "
-          class="flex h-32 w-32 transform flex-col items-center justify-center rounded-lg border-2 border-primary shadow-lg shadow-primary transition-transform duration-300 hover:scale-110 hover:shadow-xl">
-          <!-- Category Icon -->
-          <img [src]="getCategoryImage(category)" alt="{{ category.name }}" class="mb-2 h-24 w-24" />
-          <!-- Category Label -->
-          <span class="text-md font-bold">{{ category.name }}</span>
+          class="flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg border-2 border-primary shadow-lg shadow-primary transition-transform duration-300 hover:scale-110 hover:shadow-xl">
+          <img [src]="getCategoryImage(category)" alt="{{ category.name }}" class="h-full w-full object-cover" />
         </button>
+
+        <!-- Category Name -->
+        <span class="mt-2 block text-sm font-bold text-white">
+          {{ category.name }}
+        </span>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Separator Line with Icon -->
 <div class="relative -mt-4 flex items-center pb-5">
   <div class="flex-grow border-t border-primary"></div>
   <span class="mx-4 flex-shrink text-primary">
