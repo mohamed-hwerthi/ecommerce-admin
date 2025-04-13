@@ -7,6 +7,7 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
 import { CategoryComponent } from './pages/category/category.component';
+import { TimbreComponent } from './pages/timbre/timbre.component';
 
 const routes: Routes = [
   {
@@ -19,8 +20,8 @@ const routes: Routes = [
       { path: 'reviews', component: ReviewsComponent },
       { path: 'users', component: UsersComponent },
       { path: 'categories', component: CategoryComponent },
-
       { path: 'dashboard', component: OverviewComponent },
+      { path: 'timbres', component: TimbreComponent },
       { path: '**', redirectTo: 'dashboard' },
     ],
   },

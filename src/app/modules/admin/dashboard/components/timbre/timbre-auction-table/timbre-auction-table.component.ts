@@ -1,10 +1,9 @@
 import { CommonModule, NgFor } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { ToastrService } from 'ngx-toastr';
 import { interval, Observable, startWith, Subscription, switchMap } from 'rxjs';
 import { Timbre } from 'src/app/core/models/timbre.model';
 import { openCreateTimbreModal } from 'src/app/core/state/modal/timbre/timbre.action';

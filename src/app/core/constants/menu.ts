@@ -2,7 +2,7 @@ import { MenuItem } from '../models/nav-menu-item.model';
 
 export class Menu {
   public static pages: MenuItem[] = [
-    {
+    /*     {
       group: 'Dashboard',
       separator: true,
       items: [
@@ -13,7 +13,7 @@ export class Menu {
           children: [{ label: 'Overview', route: '/admin/dashboard' }],
         },
       ],
-    },
+    }, */
     {
       group: 'Entities',
       separator: true,
@@ -39,10 +39,15 @@ export class Menu {
           route: '/admin/users',
         },
         {
+          icon: 'assets/icons/heroicons/outline/gift.svg',
+          label: 'Timbres',
+          route: '/admin/timbres',
+        },
+        /*     {
           icon: 'assets/icons/heroicons/outline/star.svg',
           label: 'Reviews',
           route: '/admin/reviews',
-        },
+        }, */
       ],
     },
     {

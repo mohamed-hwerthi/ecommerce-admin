@@ -23,6 +23,7 @@ import { ReviewModalReducer } from './app/core/state/modal/review/modal.reducer'
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { categoryModalReducer } from './app/core/state/modal/category/modal.reducer';
+import { timbreModalReducer } from './app/core/state/modal/timbre/timbre.reducer';
 
 if (environment.production) {
   enableProdMode();
@@ -52,6 +53,7 @@ const initialReducers = {
   reviewModals: ReviewModalReducer,
   menuItemModals: menuItemsModalReducer,
   categoryModals: categoryModalReducer,
+  timbreModal: timbreModalReducer,
   auth: authReducer,
   cart: cartReducer,
 };
@@ -79,6 +81,7 @@ bootstrapApplication(AppComponent, {
       reviewModals: ReviewModalReducer,
       menuItemModals: menuItemsModalReducer,
       categoryModals: categoryModalReducer,
+      timbreModal: timbreModalReducer,
       auth: authReducer,
       cart: cartReducer,
     }),
@@ -99,7 +102,5 @@ bootstrapApplication(AppComponent, {
 }).catch((err) => console.error(err));
 
 function selfXSSWarning() {
-  setTimeout(() => {
-   
-  });
+  setTimeout(() => {});
 }

@@ -26,9 +26,7 @@ export class TimbreAuctionTableItemComponent {
     this.currentUser$ = this.store.pipe(select(selectCurrentUser));
   }
 
-  ngOnInit(): void {
-    console.log(this.timbre);
-  }
+  ngOnInit(): void {}
 
   handleUpdateButtonClick(currentUser: User, timbre: Timbre): void {
     this.openUpdateModal();

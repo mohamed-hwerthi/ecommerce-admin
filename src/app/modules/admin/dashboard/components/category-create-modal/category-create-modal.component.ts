@@ -102,16 +102,4 @@ export class CategoryCreateModalComponent {
       description: '',
     });
   }
-
-  /*     onUseDefaultImageChange(): void {
-      this.categoryForm.get('useDefaultImage')?.valueChanges.subscribe((useDefault: boolean) => {
-        if (useDefault) {
-          this.categoryForm.get('imageUrl')?.setValue(this.defaultImageUrl.href);
-          this.categoryForm.get('imageUrl')?.disable(); // Optionally disable to prevent edits
-        } else {
-          this.categoryForm.get('imageUrl')?.enable(); // Re-enable if the user unchecks
-          this.categoryForm.get('imageUrl')?.setValue('');
-        }
-      });
-    } */
 }

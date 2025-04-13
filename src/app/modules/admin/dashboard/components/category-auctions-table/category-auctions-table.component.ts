@@ -1,19 +1,19 @@
 import { CommonModule, NgFor } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ToastrService } from 'ngx-toastr';
 import { interval, Observable, startWith, Subscription, switchMap } from 'rxjs';
 import { PaginatedResponseDTO } from 'src/app/core/models';
 import { CategoryDTO } from 'src/app/core/models/category.model';
+import { openCreateCategoryModal } from 'src/app/core/state/modal/category/modal.action';
 import { CategoryService } from 'src/app/services/category.service';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
-import { CategoryAuctionTableItemComponent } from '../category-auction-table-item/category-auction-table-item.component';
 import { LoaderComponent } from 'src/app/shared/components/loader/loader.component';
 import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
-import { FormsModule } from '@angular/forms';
-import { openCreateCategoryModal } from 'src/app/core/state/modal/category/modal.action';
+import { CategoryAuctionTableItemComponent } from '../category-auction-table-item/category-auction-table-item.component';
 
 @Component({
   selector: '[category-auctions-table]',
@@ -48,7 +48,6 @@ export class CategoryAuctionsTableComponent {
     private readonly store: Store,
     private readonly toastr: ToastrService,
     private readonly route: ActivatedRoute,
-    private readonly router: Router,
     private readonly cdRef: ChangeDetectorRef,
   ) {}
 
@@ -82,13 +81,6 @@ export class CategoryAuctionsTableComponent {
         this.isLoading = false;
       },
     });
-
-    // Update URL query parameters
-    /*   this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { page, category: categoryFilter, sort: priceSortDirection, default: isDefault },
-      queryParamsHandling: 'merge',
-    }); */
   }
 
   onPageChange(page: number): void {

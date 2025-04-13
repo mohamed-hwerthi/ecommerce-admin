@@ -1,0 +1,9 @@
+<div class="mx-auto px-4 py-4 sm:px-8 lg:container" @slideInRight>
+  <div timbre-auction-table></div>
+
+  @if (showCreateTimbreModal$ | async) {
+  <div timbre-create-modal @fadeInOut></div>
+  } @if (showDeleteTimbreModal$ | async) {
+  <div delete-timbre-modal @fadeInOut></div>
+  }
+</div>
