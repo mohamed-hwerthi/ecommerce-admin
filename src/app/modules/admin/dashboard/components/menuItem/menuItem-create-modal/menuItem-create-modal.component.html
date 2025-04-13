@@ -1,15 +1,20 @@
 <!-- Main modal -->
-<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4 backdrop-blur-sm z-50" (click)="closeModal()">
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 backdrop-blur-sm"
+  (click)="closeModal()">
   <div class="relative max-h-full w-full max-w-2xl p-4">
     <!-- Modal content -->
-    <div class="relative rounded-xl bg-white shadow-xl dark:bg-gray-800 border border-gray-200 dark:border-gray-700" (click)="$event.stopPropagation()">
+    <div
+      class="relative rounded-xl border border-gray-200 bg-white shadow-xl dark:border-gray-700 dark:bg-gray-800"
+      (click)="$event.stopPropagation()">
       <!-- Modal header -->
-      <div class="flex items-center justify-between rounded-t-xl border-b p-5 dark:border-gray-700 bg-gradient-to-r from-blue-600 to-blue-500">
+      <div
+        class="flex items-center justify-between rounded-t-xl border-b bg-gradient-to-r from-blue-600 to-blue-500 p-5 dark:border-gray-700">
         <h3 class="text-xl font-bold text-white">Create New Menu Item</h3>
         <button
           type="button"
           (click)="closeModal()"
-          class="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-sm text-white hover:bg-white/20 transition-colors duration-200"
+          class="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-sm text-white transition-colors duration-200 hover:bg-white/20"
           data-modal-toggle="crud-modal">
           <svg class="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
             <path
@@ -22,45 +27,47 @@
           <span class="sr-only">Close modal</span>
         </button>
       </div>
-      
+
       <!-- Modal body -->
       <form class="p-6" [formGroup]="menuItemForm" (ngSubmit)="createMenuItem()">
-        <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
           <!-- Title Field -->
           <div class="col-span-2">
             <div class="relative">
-              <label for="title" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label for="title" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Title <span class="text-red-500">*</span>
               </label>
               <input
                 formControlName="title"
                 type="text"
                 id="title"
-                class="w-full px-4 py-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
+                class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-sm text-gray-900 transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 placeholder="Item title"
                 required
                 autocomplete="title" />
-              <div *ngIf="menuItemForm.get('title')?.errors?.['required'] && menuItemForm.get('title')?.touched" 
-                   class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
+              <div
+                *ngIf="menuItemForm.get('title')?.errors?.['required'] && menuItemForm.get('title')?.touched"
+                class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
                 Title is required
               </div>
             </div>
           </div>
-          
+
           <!-- Description Field -->
           <div class="col-span-2">
             <div class="relative">
-              <label for="description" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label for="description" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Description <span class="text-red-500">*</span>
               </label>
               <textarea
                 id="description"
                 formControlName="description"
                 rows="4"
-                class="w-full px-4 py-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
+                class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-sm text-gray-900 transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 placeholder="Write item description here"></textarea>
-              <div *ngIf="menuItemForm.get('description')?.errors?.['required'] && menuItemForm.get('description')?.touched" 
-                   class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
+              <div
+                *ngIf="menuItemForm.get('description')?.errors?.['required'] && menuItemForm.get('description')?.touched"
+                class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
                 Description is required
               </div>
             </div>
@@ -69,47 +76,48 @@
           <!-- Price Field -->
           <div class="col-span-2 md:col-span-1">
             <div class="relative">
-              <label for="price" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label for="price" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Price <span class="text-red-500">*</span>
               </label>
               <div class="relative">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <span class="text-gray-500 dark:text-gray-400">$</span>
-                </div>
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"></div>
                 <input
                   formControlName="price"
                   type="tel"
                   id="price"
-                  class="pl-8 w-full px-4 py-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
+                  class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 pl-8 text-sm text-gray-900 transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   placeholder="0.00" />
               </div>
-              <div *ngIf="menuItemForm.get('price')?.errors?.['required'] && menuItemForm.get('price')?.touched" 
-                   class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
+              <div
+                *ngIf="menuItemForm.get('price')?.errors?.['required'] && menuItemForm.get('price')?.touched"
+                class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
                 Price is required
               </div>
-              <div *ngIf="menuItemForm.get('price')?.errors?.['pattern']" 
-                   class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
+              <div
+                *ngIf="menuItemForm.get('price')?.errors?.['pattern']"
+                class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
                 Must be a valid number
               </div>
             </div>
           </div>
-          
+
           <!-- Category Field -->
           <div class="col-span-2 md:col-span-1">
             <div class="relative">
-              <label for="category" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label for="category" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Category <span class="text-red-500">*</span>
               </label>
-              <p-multiSelect 
-                [options]="allCategories" 
-                formControlName="categories" 
-                optionLabel="name" 
+              <p-multiSelect
+                [options]="allCategories"
+                formControlName="categories"
+                optionLabel="name"
                 placeholder="Select Categories"
-                class="w-full custom-multiselect"
-                [panelStyle]="{'background': 'var(--gray-50)', 'border': '1px solid var(--gray-300)'}">
+                class="custom-multiselect w-full"
+                [panelStyle]="{ background: 'var(--gray-50)', border: '1px solid var(--gray-300)' }">
               </p-multiSelect>
-              <div *ngIf="menuItemForm.get('category')?.touched && menuItemForm.get('category')?.invalid" 
-                   class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
+              <div
+                *ngIf="menuItemForm.get('category')?.touched && menuItemForm.get('category')?.invalid"
+                class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
                 Category is required
               </div>
             </div>
@@ -118,36 +126,38 @@
           <!-- TVA Field -->
           <div class="col-span-2 md:col-span-1">
             <div class="relative">
-              <label for="tva" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                Tva  <span class="text-red-500">*</span>
+              <label for="tva" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Tva <span class="text-red-500">*</span>
               </label>
-              
+
               <div class="relative">
                 <input
                   formControlName="tva"
                   type="tel"
                   id="tva"
-                  class="w-full px-4 py-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
+                  class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-sm text-gray-900 transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   placeholder="e.g. 20" />
-                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                   <span class="text-gray-500 dark:text-gray-400">%</span>
                 </div>
               </div>
-              <div *ngIf="menuItemForm.get('tva')?.errors?.['required'] && menuItemForm.get('tva')?.touched" 
-                   class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
+              <div
+                *ngIf="menuItemForm.get('tva')?.errors?.['required'] && menuItemForm.get('tva')?.touched"
+                class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
                 VAT is required
               </div>
-              <div *ngIf="menuItemForm.get('tva')?.errors?.['pattern'] && menuItemForm.get('tva')?.touched" 
-                   class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
+              <div
+                *ngIf="menuItemForm.get('tva')?.errors?.['pattern'] && menuItemForm.get('tva')?.touched"
+                class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
                 Must be a valid number
               </div>
             </div>
           </div>
-          
+
           <!-- Currency Field -->
           <div class="col-span-2 md:col-span-1">
             <div class="relative">
-              <label for="currency" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label for="currency" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Currency <span class="text-red-500">*</span>
               </label>
               <p-dropdown
@@ -156,80 +166,91 @@
                 optionLabel="symbol"
                 placeholder="Select Currency"
                 [showClear]="true"
-                class="w-full custom-dropdown"
+                class="custom-dropdown w-full"
                 inputId="currency">
               </p-dropdown>
-              <div *ngIf="menuItemForm.get('currency')?.touched && menuItemForm.get('currency')?.invalid" 
-                   class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
+              <div
+                *ngIf="menuItemForm.get('currency')?.touched && menuItemForm.get('currency')?.invalid"
+                class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
                 Currency is required
               </div>
             </div>
           </div>
-          
-         <!-- Image Upload Section -->
-<div class="col-span-2">
-  <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-    Product Image <span class="text-red-500">*</span>
-  </label>
-  
-  <!-- Image Preview -->
-  <div *ngIf="selectedFile || menuItemForm.get('imageUrl')?.value" class="mb-4">
-    <div class="relative w-32 h-32 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
-      <img 
-        *ngIf="selectedFile; else defaultImage"
-        [src]="imagePreviewUrl" 
-        alt="Preview" 
-        class="w-full h-full object-cover"
-      >
-      <ng-template #defaultImage>
-        <img 
-          [src]="menuItemForm.get('imageUrl')?.value || defaultImageUrl.href" 
-          alt="Default" 
-          class="w-full h-full object-cover"
-        >
-      </ng-template>
-      <button 
-        type="button"
-        (click)="removeImage()"
-        class="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors duration-200"
-      >
-        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-        </svg>
-      </button>
-    </div>
-  </div>
-  
-  <!-- Upload Area -->
-  <div class="flex items-center justify-center w-full">
-    <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600 transition-colors duration-200">
-      <div class="flex flex-col items-center justify-center pt-5 pb-6">
-        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-        </svg>
-        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-          <span class="font-semibold">Click to upload</span> or drag and drop
-        </p>
-        <p class="text-xs text-gray-500 dark:text-gray-400">
-          {{ selectedFile ? 'Change image' : 'PNG, JPG (MAX. 2MB)' }}
-        </p>
-      </div>
-      <input 
-        type="file" 
-        id="fileInput"
-        class="hidden"
-        accept="image/*"
-        (change)="onFileSelected($event)"
-        #fileInput
-      >
-    </label>
-  </div>
-</div>
-          
+
+          <!-- Image Upload Section -->
+          <div class="col-span-2">
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Product Image <span class="text-red-500">*</span>
+            </label>
+
+            <!-- Image Preview -->
+            <div *ngIf="selectedFile || menuItemForm.get('imageUrl')?.value" class="mb-4">
+              <div class="relative h-32 w-32 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
+                <img
+                  *ngIf="selectedFile; else defaultImage"
+                  [src]="imagePreviewUrl"
+                  alt="Preview"
+                  class="h-full w-full object-cover" />
+                <ng-template #defaultImage>
+                  <img
+                    [src]="menuItemForm.get('imageUrl')?.value || defaultImageUrl.href"
+                    alt="Default"
+                    class="h-full w-full object-cover" />
+                </ng-template>
+                <button
+                  type="button"
+                  (click)="removeImage()"
+                  class="absolute top-1 right-1 rounded-full bg-red-500 p-1 text-white transition-colors duration-200 hover:bg-red-600">
+                  <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Upload Area -->
+            <div class="flex w-full items-center justify-center">
+              <label
+                class="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition-colors duration-200 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                  <svg
+                    class="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 16">
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                  </svg>
+                  <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span class="font-semibold">Click to upload</span> or drag and drop
+                  </p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    {{ selectedFile ? 'Change image' : 'PNG, JPG (MAX. 2MB)' }}
+                  </p>
+                </div>
+                <input
+                  type="file"
+                  id="fileInput"
+                  class="hidden"
+                  accept="image/*"
+                  (change)="onFileSelected($event)"
+                  #fileInput />
+              </label>
+            </div>
+          </div>
+
           <!-- Barcode Field -->
           <div class="col-span-2">
             <div class="relative">
-              <label for="code-bar" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label for="code-bar" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Barcode <span class="text-red-500">*</span>
               </label>
               <div class="flex">
@@ -237,31 +258,51 @@
                   formControlName="barCode"
                   type="text"
                   id="code-bar"
-                  class="flex-1 px-4 py-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 transition-all duration-200"
+                  class="flex-1 rounded-l-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-sm text-gray-900 transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   placeholder="Enter barcode"
                   required
                   autocomplete="off" />
-                <button type="button" class="px-4 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-r-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200">
-                  <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17v1a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2M6 1v4a1 1 0 0 1-1 1H1m13.14.772 2.745 2.746M18.1 5.612a2.086 2.086 0 0 1 0 2.953l-6.65 6.646-3.693.739.739-3.692 6.646-6.646a2.087 2.087 0 0 1 2.958 0Z"/>
+                <button
+                  type="button"
+                  class="rounded-r-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-blue-700">
+                  <svg
+                    class="h-4 w-4"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20">
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 17v1a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2M6 1v4a1 1 0 0 1-1 1H1m13.14.772 2.745 2.746M18.1 5.612a2.086 2.086 0 0 1 0 2.953l-6.65 6.646-3.693.739.739-3.692 6.646-6.646a2.087 2.087 0 0 1 2.958 0Z" />
                   </svg>
                   <span class="sr-only">Scan</span>
                 </button>
               </div>
-              <div *ngIf="menuItemForm.get('barCode')?.errors?.['required'] && menuItemForm.get('barCode')?.touched" 
-                   class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
+              <div
+                *ngIf="menuItemForm.get('barCode')?.errors?.['required'] && menuItemForm.get('barCode')?.touched"
+                class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
                 Barcode is required
               </div>
             </div>
           </div>
-          
+
           <!-- Submit Button -->
           <div class="col-span-2 mt-4">
             <button
               type="submit"
-              class="w-full px-5 py-3 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition-colors duration-200 flex items-center justify-center">
-              <svg class="me-2 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+              class="flex w-full items-center justify-center rounded-lg bg-blue-600 px-5 py-3 text-center text-sm font-medium text-white transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-blue-300 hover:bg-blue-700 dark:bg-blue-600 dark:focus:ring-blue-800 dark:hover:bg-blue-700">
+              <svg
+                class="me-2 -ms-1 h-5 w-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  fill-rule="evenodd"
+                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                  clip-rule="evenodd"></path>
               </svg>
               Add New Menu Item
             </button>
