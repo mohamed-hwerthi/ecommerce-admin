@@ -165,6 +165,10 @@
         "TITLE": "Bug report",
         "EMAIL": "bugs",
         "PHONE": "+1 234-567-89"
+      },
+      "CATEGORY": {
+        "SURE_TO_DELETE_CATEGORY": "Deleting this category will also delete all associated products. Are you sure you want to delete it?",
+        "CATEGORY_DELETED_SUCCESSFULLY": "Category deleted successfully"
       }
     }
   }

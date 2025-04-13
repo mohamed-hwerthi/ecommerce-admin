@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { closeDeletecCategoryModal } from 'src/app/core/state/modal/category/modal.action';
@@ -9,7 +10,7 @@ import { CategoryService } from 'src/app/services/category.service';
 @Component({
   selector: '[category-delete-modal]',
   standalone: true,
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './category-delete-modal.component.html',
   styleUrl: './category-delete-modal.component.scss',
 })
@@ -21,6 +22,7 @@ export class CategoryDeleteModalComponent {
     private readonly store: Store,
     private readonly categoryService: CategoryService,
     private readonly toastr: ToastrService,
+    private readonly translateService: TranslateService,
   ) {
     this.subscription.add(
       this.store.select(selectDeleteCategoryId).subscribe((categoryId) => {
@@ -37,9 +39,7 @@ export class CategoryDeleteModalComponent {
     this.categoryService.deleteCategory(this.categoryIdToDelete).subscribe({
       next: () => {
         this.categoryService.onCategoryDeleted(this.categoryIdToDelete);
-        this.toastr.success(
-          `Category  with ID ${this.categoryIdToDelete} deletedcloseDeleteMenuItemModal successfully!`,
-        );
+        this.toastr.success('Catégorie supprimée avec succès');
         this.closeModal();
       },
       error: (error) => this.toastr.error('Failed to delete menu item!:', error.message),
