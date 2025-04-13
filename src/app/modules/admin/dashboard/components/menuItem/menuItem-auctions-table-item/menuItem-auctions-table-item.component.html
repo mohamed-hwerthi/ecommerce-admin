@@ -18,10 +18,11 @@
 </td>
 <td class="py-2 text-center">
   <span class="text-sm font-semibold text-muted-foreground">
+   
+    {{ menuItem.price }}
     <ng-container *ngIf="menuItem.currency?.symbol as symbol">
       <span>{{ symbol }}</span>
     </ng-container>
-    {{ menuItem.price }}
   </span></td>
 <td class="py-2 text-center">
   <span class="text-sm font-semibold text-muted-foreground">{{ menuItem.salesCount }}</span>
