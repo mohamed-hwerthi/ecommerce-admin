@@ -47,7 +47,7 @@ export class CartComponent implements OnInit {
     public cartVisibilityService: CartVisibilityService,
     private ordersService: OrdersService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
   ) {
     // Workaround for quantity issues, this ensures proper total order value
     // Subscribe to the cart items

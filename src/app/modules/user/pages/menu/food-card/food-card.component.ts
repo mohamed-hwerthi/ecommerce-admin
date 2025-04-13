@@ -1,17 +1,16 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MenuItem } from '../../../../../core/models';
-import { CommonModule } from '@angular/common';
-import { CurrencyPipe } from '@angular/common';
-import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Store } from '@ngrx/store';
-import { addItem } from '../../../../../core/state/shopping-cart/cart.actions';
 import { ToastrService } from 'ngx-toastr';
-import { selectCartItems } from '../../../../../core/state/shopping-cart/cart.selectors';
 import { map, take } from 'rxjs';
-import { openCreateReviewUserModal, openUsersReviewModal } from '../../../../../core/state/modal/review/modal.actions';
-import { CartVisibilityService } from '../../../../../services/cart-visibility.service';
 import { environment } from 'src/environments/environment';
+import { MenuItem } from '../../../../../core/models';
+import { openCreateReviewUserModal, openUsersReviewModal } from '../../../../../core/state/modal/review/modal.actions';
+import { addItem } from '../../../../../core/state/shopping-cart/cart.actions';
+import { selectCartItems } from '../../../../../core/state/shopping-cart/cart.selectors';
+import { CartVisibilityService } from '../../../../../services/cart-visibility.service';
 
 @Component({
   selector: 'app-food-card',
