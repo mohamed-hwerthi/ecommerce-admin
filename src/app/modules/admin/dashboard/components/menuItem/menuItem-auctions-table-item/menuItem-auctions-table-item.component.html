@@ -17,8 +17,12 @@
   </div>
 </td>
 <td class="py-2 text-center">
-  <span class="text-sm font-semibold text-muted-foreground">{{ menuItem.price | currency }}</span>
-</td>
+  <span class="text-sm font-semibold text-muted-foreground">
+    <ng-container *ngIf="menuItem.currency?.symbol as symbol">
+      <span>{{ symbol }}</span>
+    </ng-container>
+    {{ menuItem.price }}
+  </span></td>
 <td class="py-2 text-center">
   <span class="text-sm font-semibold text-muted-foreground">{{ menuItem.salesCount }}</span>
 </td>
@@ -29,7 +33,11 @@
       [tone]="menuItem.price * menuItem.salesCount === 0 ? 'danger' : 'success'"
       shape="rounded"
       size="medium"
-      >{{ menuItem.price * menuItem.salesCount | currency }}</app-button
+      >{{ menuItem.price * menuItem.salesCount  }}
+      <ng-container *ngIf="menuItem.currency?.symbol as symbol">
+        <span>{{  symbol }}</span>
+      </ng-container>
+      </app-button
     >
   </div>
 </td>

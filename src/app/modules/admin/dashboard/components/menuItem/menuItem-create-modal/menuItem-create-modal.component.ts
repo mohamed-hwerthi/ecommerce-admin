@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -14,6 +14,9 @@ import { CategoryService } from 'src/app/services/category.service';
 import { MenuItem } from '../../../../../../core/models';
 import { closeCreateMenuItemModal } from '../../../../../../core/state/modal/menuItem/modal.actions';
 import { MenuItemsService } from '../../../../../../services/menuItems.service';
+import { CurrencyDTO } from 'src/app/core/models/currency.model';
+import { CurrencyService } from 'src/app/services/currency.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: '[menuItem-create-modal]',
@@ -24,9 +27,13 @@ import { MenuItemsService } from '../../../../../../services/menuItems.service';
   templateUrl: './menuItem-create-modal.component.html',
 })
 export class MenuItemCreateModalComponent {
+  @ViewChild('fileInput') fileInput!: ElementRef;
+
   menuItemForm: FormGroup;
   allCategories: CategoryDTO[] = [];
+  allCurrencies: CurrencyDTO[] = [];
   selectedFile: File | null = null;
+  imagePreviewUrl: SafeUrl | null = null;
 
   defaultImageUrl: URL = new URL(
     'https://w0.peakpx.com/wallpaper/97/150/HD-wallpaper-mcdonalds-double-cheese-burger-double-mcdonalds-cheese-burger-thumbnail.jpg',
@@ -41,18 +48,25 @@ export class MenuItemCreateModalComponent {
     private readonly toastr: ToastrService,
     private readonly categoryService: CategoryService,
     private readonly mediaService: MediaService,
+    private readonly currencyService:CurrencyService,
+    private readonly sanitizer: DomSanitizer
+
+
   ) {
     this.menuItemForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
       price: [1, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?(\.\d+)?(?<=\d)$/)]],
+      tva: [0, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?(\.\d+)?(?<=\d)$/)]],
       imageUrl: [''],
       barCode: [''],
       categories: [null, Validators.required],
+      currency: [null, Validators.required],
     });
   }
 
   ngOnInit() {
+    this.loadCurrencies();
     this.loadCategories();
     this.onUseDefaultImageChange(); // Setup listener for the checkbox
   }
@@ -77,7 +91,20 @@ export class MenuItemCreateModalComponent {
    * Handles direct menu item creation when no file is selected.
    */
   private createMenuItemDirectly(submissionValues: any): void {
-    this.menuItemsService.createMenuItem(submissionValues).subscribe({
+
+    console.log(submissionValues)
+     // Create tax object from TVA value
+  const tax = {
+    rate: submissionValues.tva,
+    name: 'TVA' // Or any default name you prefer
+  };
+ // Add tax to the submission values
+ const payload = {
+  ...submissionValues,
+  tax: tax
+};
+
+    this.menuItemsService.createMenuItem(payload).subscribe({
       next: (menuItem: MenuItem) => this.handleSuccess(menuItem),
       error: (error: any) => this.toastr.error('Error creating menu item!', error?.message || 'Unknown error'),
     });
@@ -122,10 +149,28 @@ export class MenuItemCreateModalComponent {
   }
 
   onFileSelected(event: any): void {
-    const file = event.files[0];
+    const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
+      this.generateImagePreview(file);
     }
+  }
+  removeImage(): void {
+    this.selectedFile = null;
+    this.imagePreviewUrl = null;
+    this.menuItemForm.get('imageUrl')?.setValue('');
+    // Reset the file input to allow selecting the same file again
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
+
+  private generateImagePreview(file: File): void {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imagePreviewUrl = this.sanitizer.bypassSecurityTrustUrl(e.target.result);
+    };
+    reader.readAsDataURL(file);
   }
 
   closeModal(): void {
@@ -168,5 +213,17 @@ export class MenuItemCreateModalComponent {
         queryParams: { page, category: categoryFilter, sort: priceSortDirection, default: isDefault },
         queryParamsHandling: 'merge',
       }); */
+  }
+  loadCurrencies(): void {
+    this.currencyService.findAllCurrencies().subscribe({
+      next: (res: CurrencyDTO[]) => {
+        console.log(res);
+        this.allCurrencies = res;
+      },
+      error: (error) => {
+        this.toastr.error('Error fetching categories:', error);
+      },
+    });
+
   }
 }

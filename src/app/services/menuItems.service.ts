@@ -30,6 +30,7 @@ export class MenuItemsService extends BaseService {
 
   // Emit event when a menu item is created
   menuItemCreated(menuItem: MenuItem): void {
+    console.log("menuitem",menuItem);
     this.menuItemCreatedSource.next(menuItem);
   }
 
