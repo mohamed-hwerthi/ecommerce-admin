@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -9,7 +10,7 @@ import { TimbreService } from 'src/app/services/timbre-service.service';
 @Component({
   selector: '[timbre-create-modal]',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './timbre-create-modal.component.html',
   styleUrl: './timbre-create-modal.component.scss',
 })

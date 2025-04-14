@@ -1,23 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule, NgClass } from '@angular/common';
-import { AngularSvgIconModule } from 'angular-svg-icon';
-import { trigger, state, style, animate, transition } from '@angular/animations';
-import * as AuthActions from '../../../../../../core/state/auth/auth.actions';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { Store, select } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 import { Observable } from 'rxjs';
-import { ClickOutsideDirective } from '../../../../../../shared/directives/click-outside.directive';
 import { User } from '../../../../../../core/models';
+import * as AuthActions from '../../../../../../core/state/auth/auth.actions';
 import { selectCurrentUser } from '../../../../../../core/state/auth/auth.selectors';
 import { ThemeService } from '../../../../../../services/theme.service';
-import { TranslateModule } from '@ngx-translate/core';
-
+import { ClickOutsideDirective } from '../../../../../../shared/directives/click-outside.directive';
 
 @Component({
   selector: 'app-profile-menu',
   templateUrl: './profile-menu.component.html',
   standalone: true,
-  imports: [ClickOutsideDirective, NgClass, RouterLink, AngularSvgIconModule, CommonModule,RouterModule,TranslateModule],
+  imports: [ClickOutsideDirective, NgClass, AngularSvgIconModule, CommonModule, RouterModule, TranslateModule],
   animations: [
     trigger('openClose', [
       state(
@@ -45,7 +44,7 @@ export class ProfileMenuComponent implements OnInit {
   user$: Observable<User | null>;
   public isOpen = false;
   public profileMenu = [
-    {
+    /*     {
       key: 'PROFILE_MENU.PROFILE',
       icon: './assets/icons/heroicons/outline/user-circle.svg',
       link: '/profile',
@@ -59,7 +58,7 @@ export class ProfileMenuComponent implements OnInit {
       key: 'PROFILE_MENU.REVIEWS',
       icon: './assets/icons/heroicons/outline/star.svg',
       link: '/reviews',
-    },
+    }, */
     {
       key: 'PROFILE_MENU.LOGOUT',
       icon: './assets/icons/heroicons/outline/logout.svg',
@@ -100,7 +99,7 @@ export class ProfileMenuComponent implements OnInit {
 
   public themeMode = ['light', 'dark'];
 
-  constructor(public themeService: ThemeService, private router: Router, private store: Store) {
+  constructor(public themeService: ThemeService, private readonly router: Router, private readonly store: Store) {
     this.user$ = this.store.pipe(select(selectCurrentUser));
   }
 
@@ -133,5 +132,4 @@ export class ProfileMenuComponent implements OnInit {
       return { ...theme, color: color };
     });
   }
-
 }

@@ -26,11 +26,10 @@ export class SignInComponent implements OnInit {
   baseUrl: string = '';
 
   constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private authService: AuthService,
-    private store: Store,
-    private toastr: ToastrService,
+    private readonly formBuilder: FormBuilder,
+    private readonly authService: AuthService,
+    private readonly store: Store,
+    private readonly toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -44,13 +43,13 @@ export class SignInComponent implements OnInit {
   // Admin Login
   loginAsAdmin() {
     this.isLoadingAdmin = true;
-    this.login("admin@example.com", "123123", 'admin');
+    this.login('admin@example.com', '123123', 'admin');
   }
 
   // Moderator Login
   loginAsModerator() {
     this.isLoadingModerator = true;
-    this.login("moderator@example.com", "123123", 'moderator');
+    this.login('moderator@example.com', '123123', 'moderator');
   }
 
   // Normal User Login
@@ -72,7 +71,7 @@ export class SignInComponent implements OnInit {
       },
       error: (error) => {
         this.toastr.error(error);
-        (this as any)[`isLoading${type.charAt(0).toUpperCase() + type.slice(1)}`] = false; // Converts to camelCase isLoading admin or user or mod
+        (this as any)[`isLoading${type.charAt(0).toUpperCase() + type.slice(1)}`] = false;
       },
     });
   }

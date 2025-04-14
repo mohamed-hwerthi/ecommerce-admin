@@ -15,7 +15,7 @@ import { NgClass, NgIf } from '@angular/common';
 export class SidebarComponent implements OnInit {
   public appJson: any = packageJson;
 
-  constructor(public menuService: MenuService,private router: Router) {}
+  constructor(public menuService: MenuService, private readonly router: Router) {}
 
   ngOnInit(): void {}
 
