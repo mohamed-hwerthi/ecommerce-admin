@@ -5,5 +5,7 @@
   <div timbre-create-modal @fadeInOut></div>
   } @if (showDeleteTimbreModal$ | async) {
   <div delete-timbre-modal @fadeInOut></div>
+  } @if(showUpdateTimbreModal$|async){
+  <div timbre-update-modal @fadeInOut></div>
   }
 </div>

@@ -54,6 +54,7 @@ export class TimbreService extends BaseService {
   }
 
   updateTimbre(id: number, timbre: Timbre): Observable<Timbre> {
+    console.log(id);
     return this.put<Timbre>(`${this.baseUrl}/${id}`, timbre).pipe(
       tap((result: Timbre) => this.notifyTimbreUpdated(result)),
     );

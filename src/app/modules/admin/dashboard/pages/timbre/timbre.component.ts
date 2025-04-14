@@ -9,11 +9,18 @@ import {
 import { DeleteTimbreModalComponent } from '../../components/timbre/delete-timbre-modal/delete-timbre-modal.component';
 import { TimbreAuctionTableComponent } from '../../components/timbre/timbre-auction-table/timbre-auction-table.component';
 import { TimbreCreateModalComponent } from '../../components/timbre/timbre-create-modal/timbre-create-modal.component';
+import { TimbreUpdateModalComponent } from '../../components/timbre/timbre-update-modal/timbre-update-modal.component';
 
 @Component({
   selector: 'app-timbre',
   standalone: true,
-  imports: [CommonModule, TimbreAuctionTableComponent, TimbreCreateModalComponent, DeleteTimbreModalComponent],
+  imports: [
+    CommonModule,
+    TimbreAuctionTableComponent,
+    TimbreCreateModalComponent,
+    DeleteTimbreModalComponent,
+    TimbreUpdateModalComponent,
+  ],
   templateUrl: './timbre.component.html',
   styleUrl: './timbre.component.scss',
 })
