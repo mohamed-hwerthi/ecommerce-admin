@@ -44,7 +44,7 @@ export class ProfileMenuComponent implements OnInit {
   user$: Observable<User | null>;
   public isOpen = false;
   public profileMenu = [
-    /*     {
+    {
       key: 'PROFILE_MENU.PROFILE',
       icon: './assets/icons/heroicons/outline/user-circle.svg',
       link: '/profile',
@@ -58,7 +58,7 @@ export class ProfileMenuComponent implements OnInit {
       key: 'PROFILE_MENU.REVIEWS',
       icon: './assets/icons/heroicons/outline/star.svg',
       link: '/reviews',
-    }, */
+    },
     {
       key: 'PROFILE_MENU.LOGOUT',
       icon: './assets/icons/heroicons/outline/logout.svg',
