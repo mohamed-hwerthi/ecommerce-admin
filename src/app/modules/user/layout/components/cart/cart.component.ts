@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { LoaderComponent } from '../../../../../shared/components/loader/loader.component';
 import { clearCart, removeItem } from '../../../../../core/state/shopping-cart/cart.actions';
+import { environment } from 'src/environments/environment';
 
 interface CartItem extends MenuItem {
   quantity: number;
@@ -147,5 +148,12 @@ export class CartComponent implements OnInit {
 
   removeItem(itemId: number): void {
     this.store.dispatch(removeItem({ itemId }));
+  }
+  getMenuItemImage(item: MenuItem): string {
+    if (item.medias.length > 0) {
+      return environment.apiStaticUrl + item.medias[0].url;
+    } else {
+      return '';
+    }
   }
 }

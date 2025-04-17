@@ -5,12 +5,12 @@ import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { map, take } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { MenuItem } from '../../../../../core/models';
 import { openCreateReviewUserModal, openUsersReviewModal } from '../../../../../core/state/modal/review/modal.actions';
 import { addItem } from '../../../../../core/state/shopping-cart/cart.actions';
 import { selectCartItems } from '../../../../../core/state/shopping-cart/cart.selectors';
 import { CartVisibilityService } from '../../../../../services/cart-visibility.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-food-card',
@@ -54,13 +54,6 @@ export class FoodCardComponent {
   openUserReviewsModal(itemId: number): void {
     this.store.dispatch(openUsersReviewModal({ itemId }));
   }
-  getMenuItemImage(): string {
-    if (this.item.medias.length > 0) {
-      return environment.apiStaticUrl + this.item.medias[0].url;
-    } else {
-      return '';
-    }
-  }
 
   addToCart(item: MenuItem): void {
     this.store
@@ -82,5 +75,12 @@ export class FoodCardComponent {
         }),
       )
       .subscribe();
+  }
+  getMenuItemImage(): string {
+    if (this.item.medias.length > 0) {
+      return environment.apiStaticUrl + this.item.medias[0].url;
+    } else {
+      return '';
+    }
   }
 }

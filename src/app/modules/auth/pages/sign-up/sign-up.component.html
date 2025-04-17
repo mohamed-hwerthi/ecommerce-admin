@@ -1,5 +1,5 @@
 <form class="my-5 space-y-6" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-  <div class="text-center">
+  <!--   <div class="text-center">
     <h2 class="mb-1 text-3xl font-semibold text-foreground">Sign Up <span class="text-primary">!</span></h2>
     <p class="text-sm text-muted-foreground">Let's get started with your 30 day free trial</p>
   </div>
@@ -14,7 +14,7 @@
   <div
     class="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-muted after:mt-0.5 after:flex-1 after:border-t after:border-muted">
     <p class="mx-4 mb-0 text-center text-sm text-muted-foreground">or</p>
-  </div>
+  </div> -->
 
   <div class="space-y-3 text-left">
     <!-- Email Field with Dynamic Label/Error Message -->
@@ -46,7 +46,7 @@
     <!-- Password Field with Dynamic Label/Error Message -->
     <div class="relative">
       <input
-      [type]="passwordTextType ? 'text' : 'password'"
+        [type]="passwordTextType ? 'text' : 'password'"
         id="password"
         formControlName="password"
         class="peer block placeholder-transparent"
@@ -71,9 +71,7 @@
       <span class="absolute top-2.5 right-5 cursor-pointer text-muted-foreground" (click)="togglePasswordTextType()">
         <svg-icon
           [src]="
-            !passwordTextType
-              ? 'assets/icons/heroicons/outline/eye-off.svg'
-              : 'assets/icons/heroicons/outline/eye.svg'
+            !passwordTextType ? 'assets/icons/heroicons/outline/eye-off.svg' : 'assets/icons/heroicons/outline/eye.svg'
           "
           [svgClass]="'h-5 w-5'">
         </svg-icon>
@@ -92,7 +90,7 @@
     </span>
     <div class="relative">
       <input
-      [type]="passwordTextType ? 'text' : 'password'"
+        [type]="passwordTextType ? 'text' : 'password'"
         id="confirm-password"
         formControlName="confirmPassword"
         class="peer block"
@@ -106,9 +104,7 @@
       <span class="absolute top-2.5 right-5 cursor-pointer text-muted-foreground" (click)="togglePasswordTextType()">
         <svg-icon
           [src]="
-            !passwordTextType
-              ? 'assets/icons/heroicons/outline/eye-off.svg'
-              : 'assets/icons/heroicons/outline/eye.svg'
+            !passwordTextType ? 'assets/icons/heroicons/outline/eye-off.svg' : 'assets/icons/heroicons/outline/eye.svg'
           "
           [svgClass]="'h-5 w-5'">
         </svg-icon>

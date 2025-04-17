@@ -100,22 +100,25 @@
 
   <!-- Submit Button -->
   <div class="flex flex-col gap-2">
-    <!--     <app-button (click)="loginAsUser()" full impact="bold" tone="primary" shape="rounded" size="medium">
-        <ng-container *ngIf="!isLoadingUser; else spinnerTemplate"> Sign in </ng-container>
-        <ng-template #spinnerTemplate>
-          <div class="spinner"></div>
-        </ng-template>
-      </app-button> -->
+    <app-button (click)="loginAsUser()" full impact="bold" tone="primary" shape="rounded" size="medium">
+      <ng-container *ngIf="!isLoadingUser; else spinnerTemplate"> User </ng-container>
+      <ng-template #spinnerTemplate>
+        <div class="spinner"></div>
+      </ng-template>
+    </app-button>
+
     <!-- Admin login button -->
     <app-button type="button" (click)="loginAsAdmin()" full impact="bold" tone="danger" shape="rounded" size="medium">
-      <ng-container *ngIf="!isLoadingAdmin"> Login </ng-container>
+      <ng-container *ngIf="!isLoadingAdmin"> Admin </ng-container>
     </app-button>
 
     <!-- Moderator login button -->
-    <!--   <app-button type="button" (click)="loginAsModerator()" full impact="bold" tone="info" shape="rounded" size="medium">
+    <!-- todo : login as super admin commented -->
+    <!--     <app-button type="button" (click)="loginAsModerator()" full impact="bold" tone="info" shape="rounded" size="medium">
       <ng-container *ngIf="!isLoadingModerator"> Test Moderator session </ng-container>
-    </app-button> -->
-    <!--   <app-button
+    </app-button>
+ -->
+    <!--     <app-button
       type="button"
       (click)="swaggerRedirect()"
       full

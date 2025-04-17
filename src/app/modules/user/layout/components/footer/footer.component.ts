@@ -6,8 +6,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [AngularSvgIconModule, RouterOutlet, RouterModule,TranslateModule],
+  imports: [AngularSvgIconModule, RouterOutlet, RouterModule, TranslateModule],
   templateUrl: './footer.component.html',
 })
-export class FooterComponent {
-}
+export class FooterComponent {}

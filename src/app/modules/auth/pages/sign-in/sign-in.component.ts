@@ -44,13 +44,13 @@ export class SignInComponent implements OnInit {
   // Admin Login
   loginAsAdmin() {
     this.isLoadingAdmin = true;
-    this.login("admin@example.com", "123123", 'admin');
+    this.login('admin@example.com', '123123', 'admin');
   }
 
   // Moderator Login
   loginAsModerator() {
     this.isLoadingModerator = true;
-    this.login("moderator@example.com", "123123", 'moderator');
+    this.login('moderator@example.com', '123123', 'moderator');
   }
 
   // Normal User Login

@@ -1,20 +1,20 @@
 {
   "HERO": {
-    "TITLE": "La livraison de nourriture la plus rapide en",
-    "LOCATION": "Bulgarie",
-    "DESCRIPTION": "Savourez les meilleurs plats depuis le confort de votre maison. Satisfaites vos envies avec notre large sélection de cuisines délicieuses, livrées directement à votre porte. Profitez de la commodité et des saveurs comme jamais auparavant !",
+    "TITLE": "La livraison de produits cosmétiques naturels la plus rapide en",
+    "LOCATION": "Tunisia",
+    "DESCRIPTION": "L'oryx Bio marque tunisienne de produits cosmétiques naturels, partage avec vous sa passion pour la beauté, la nature et le bien-être. Inspirée des rituels ...",
     "ORDER_NOW": "Commander maintenant"
   },
   "HEADER": {
     "HOME": "Accueil",
-    "MENU": "Menu",
+    "MENU": "Produit",
     "ABOUT_US": "À propos de nous",
     "CONTACT_US": "Contactez-nous",
     "ADMIN_DASHBOARD": "Tableau de bord administrateur",
     "SERVICES": "Services"
   },
   "MENU": {
-    "MENU": "Menu",
+    "MENU": "Produit",
     "TITLE": "Nos Délices",
     "SUB_TITLE": "Explorez notre large variété de plats. Il y en a pour tous les goûts !"
   },
@@ -68,7 +68,7 @@
     "PROFILE": "Profil",
     "ORDERS": "Commandes",
     "CONTACT": "Contact",
-    "COPYRIGHT": "© 2024 <a routerLink='/' class='hover:underline'>Food Squad™</a>. Tous droits réservés."
+    "COPYRIGHT": "© 2025 <a routerLink='/' class='hover:underline'>Orix Bio™</a>. Tous droits réservés."
   },
   "PROFILE_MENU": {
     "PROFILE": "Mon Profil",
@@ -104,35 +104,36 @@
     }
   },
   "ABOUT_US": {
-    "TITLE": "À propos de Food Squad : Un projet étudiant",
-    "DESCRIPTION": "Bienvenue chez Food Squad, une plateforme innovante de commande de nourriture développée dans le cadre d'un projet étudiant. Moi, George, suis le seul créateur et développeur de Food Squad, animé par une passion pour la technologie et l'amour de la bonne cuisine. Food Squad n'est pas seulement une application ; c'est le résultat de mon engagement à apprendre et à explorer de nouvelles opportunités dans le monde numérique.",
+    "TITLE": "À propos d’Oryx Bio : Une marque engagée",
+    "DESCRIPTION": "Bienvenue chez Oryx Bio, une marque tunisienne de cosmétiques naturels née d’une passion pour la beauté, la nature et le bien-être. Moi, George, suis le fondateur et développeur de cette plateforme, animé par l’envie de créer une expérience authentique autour des soins naturels. Oryx Bio n’est pas simplement une boutique en ligne ; c’est le reflet d’un engagement personnel envers une beauté plus responsable et plus saine.",
     "MISSION": {
       "TITLE": "Notre Mission",
-      "DESCRIPTION": "Food Squad est né du désir d'explorer l'intersection entre la technologie et la gastronomie, sans objectif de profit. Ma mission avec Food Squad est simple : créer une expérience de commande de nourriture pratique et agréable pour les utilisateurs, tout en acquérant des compétences et des connaissances précieuses en tant qu'étudiant."
+      "DESCRIPTION": "Oryx Bio est née du souhait de promouvoir une approche plus naturelle de la cosmétique, en alliant tradition, innovation et respect de l’environnement. Ma mission est claire : offrir des produits de qualité inspirés des rituels ancestraux, tout en mettant en avant le savoir-faire tunisien et les bienfaits des ingrédients naturels."
     },
     "VISION": {
       "TITLE": "Notre Vision",
-      "DESCRIPTION": "Alors que de nombreuses applications alimentaires visent le profit et l'extensibilité, la vision de Food Squad est unique. J'imagine Food Squad comme une plateforme qui met l'accent sur l'apprentissage et l'expérimentation, offrant aux utilisateurs un aperçu des capacités des projets étudiants. À travers Food Squad, je souhaite démontrer la créativité et l'innovation que les étudiants peuvent apporter."
+      "DESCRIPTION": "Contrairement aux grandes marques motivées par le profit, la vision d’Oryx Bio repose sur l’authenticité, la durabilité et l’impact positif. Je vois Oryx Bio comme une vitrine de ce que la nature peut offrir de meilleur, tout en valorisant le patrimoine local. À travers cette initiative, je souhaite inspirer une consommation plus consciente et respectueuse."
     },
     "UNIQUENESS": {
-      "TITLE": "Ce qui distingue Food Squad",
+      "TITLE": "Ce qui distingue Oryx Bio",
       "FEATURES": [
-        "Projet éducatif : Food Squad sert de plateforme d'apprentissage pour moi en tant qu'étudiant, me permettant d'acquérir une expérience pratique en développement d'applications, conception d'interface utilisateur et gestion de projet.",
-        "Engagement communautaire : Bien que Food Squad ne vise pas le profit, il favorise l'engagement et la collaboration communautaire. Je suis ouvert aux commentaires et suggestions des utilisateurs, des étudiants et de toute personne souhaitant contribuer à la croissance du projet.",
-        "Approche transparente : Food Squad fonctionne avec transparence et honnêteté. En tant que projet étudiant, je suis franc sur mes objectifs et mes limites, offrant aux utilisateurs un aperçu unique du processus de développement.",
-        "Amélioration continue : Alors que je continue à développer Food Squad, je m'engage à une amélioration continue. Chaque mise à jour et chaque amélioration sont motivées par le désir d'apprendre et de perfectionner mes compétences de développeur."
+        "Démarche artisanale : Chaque produit Oryx Bio est conçu avec soin, en privilégiant des ingrédients naturels et des procédés doux pour la peau et la planète.",
+        "Engagement local : Nous collaborons avec des producteurs locaux pour soutenir l’économie tunisienne et garantir la fraîcheur et la qualité des matières premières.",
+        "Transparence et éthique : Chez Oryx Bio, nous croyons en une communication honnête. Tous nos produits sont détaillés clairement, sans fausses promesses.",
+        "Amélioration continue : Chaque retour client nous permet de progresser. Nous perfectionnons sans cesse nos formules et nos services pour offrir le meilleur de la nature."
       ]
     },
     "GET_INVOLVED": {
       "TITLE": "Participez",
-      "DESCRIPTION": "Vous souhaitez soutenir Food Squad ? Il existe plusieurs façons de participer :",
+      "DESCRIPTION": "Vous souhaitez soutenir Oryx Bio ? Il existe plusieurs façons de participer :",
       "OPPORTUNITIES": [
-        "Donnez votre avis : Vos commentaires sont essentiels pour façonner l'avenir de Food Squad. Que vous ayez des suggestions d'amélioration ou des demandes de fonctionnalités, j'aimerais avoir votre avis.",
-        "Faites connaître le projet : Aidez à faire connaître Food Squad dans votre communauté et parmi vos camarades étudiants. Plus il y a d'utilisateurs, plus il y a d'opportunités d'apprentissage et de collaboration.",
-        "Contribuez : Êtes-vous un étudiant passionné par la technologie ? Envisagez de contribuer à Food Squad ! Que vous soyez développeur, designer ou passionné de marketing, il y a une place pour vous dans l'équipe Food Squad."
+        "Donnez votre avis : Vos retours sont précieux pour améliorer nos produits et votre expérience. N'hésitez pas à partager vos suggestions.",
+        "Faites connaître le projet : Parlez d’Oryx Bio autour de vous ou sur les réseaux sociaux pour faire découvrir une beauté plus naturelle.",
+        "Contribuez : Vous êtes passionné(e) par le naturel, la cosmétique ou le développement durable ? Rejoignez notre aventure !"
       ]
     }
   },
+
   "CONTACT_US": {
     "TITLE": "Contactez-nous",
     "DESCRIPTION": "Un problème technique ? Vous souhaitez donner votre avis sur une fonctionnalité en version bêta ? Besoin de détails sur notre plan Entreprise ? Faites-le-nous savoir.",

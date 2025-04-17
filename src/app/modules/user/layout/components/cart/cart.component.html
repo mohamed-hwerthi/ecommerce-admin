@@ -18,7 +18,8 @@
     <div *ngIf="cartItems.length > 0; else emptyCart" class="mt-4">
       <ul class="divide-y divide-gray-200 dark:divide-gray-700">
         <li *ngFor="let item of cartItems" class="flex gap-4 py-4">
-          <img src="{{ item.imageUrl }}" alt="{{ item.title }}" class="h-20 w-20 flex-none rounded-full border border-gray-300 dark:border-gray-600 object-cover" />
+          <img             [src]="getMenuItemImage(item)"
+          alt="{{ item.title }}" class="h-20 w-20 flex-none rounded-full border border-gray-300 dark:border-gray-600 object-cover" />
           <div class="flex flex-1 flex-col">
             <div class="flex justify-between">
               <span class="mr-2 truncate font-semibold">

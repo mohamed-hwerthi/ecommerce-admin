@@ -12,12 +12,19 @@ import { selectCurrentUser } from '../../../../../../core/state/auth/auth.select
 import { ThemeService } from '../../../../../../services/theme.service';
 import { TranslateModule } from '@ngx-translate/core';
 
-
 @Component({
   selector: 'app-profile-menu',
   templateUrl: './profile-menu.component.html',
   standalone: true,
-  imports: [ClickOutsideDirective, NgClass, RouterLink, AngularSvgIconModule, CommonModule,RouterModule,TranslateModule],
+  imports: [
+    ClickOutsideDirective,
+    NgClass,
+    RouterLink,
+    AngularSvgIconModule,
+    CommonModule,
+    RouterModule,
+    TranslateModule,
+  ],
   animations: [
     trigger('openClose', [
       state(
@@ -100,7 +107,7 @@ export class ProfileMenuComponent implements OnInit {
 
   public themeMode = ['light', 'dark'];
 
-  constructor(public themeService: ThemeService, private router: Router, private store: Store) {
+  constructor(public themeService: ThemeService, private readonly router: Router, private readonly store: Store) {
     this.user$ = this.store.pipe(select(selectCurrentUser));
   }
 
@@ -133,5 +140,4 @@ export class ProfileMenuComponent implements OnInit {
       return { ...theme, color: color };
     });
   }
-
 }

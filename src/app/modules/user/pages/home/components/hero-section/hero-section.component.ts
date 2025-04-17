@@ -5,7 +5,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-hero-section',
   standalone: true,
-  imports: [RouterLink,  TranslateModule],
+  imports: [RouterLink, TranslateModule],
   templateUrl: './hero-section.component.html',
   animations: [
     trigger('slideInLeft', [
@@ -23,5 +23,5 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   ],
 })
 export class HeroSectionComponent {
-  constructor(private translate: TranslateService) {}
+  constructor(private readonly translate: TranslateService) {}
 }
