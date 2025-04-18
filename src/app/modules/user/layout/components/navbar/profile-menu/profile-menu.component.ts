@@ -1,16 +1,16 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CommonModule, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
-import { CommonModule, NgClass } from '@angular/common';
-import { AngularSvgIconModule } from 'angular-svg-icon';
-import { trigger, state, style, animate, transition } from '@angular/animations';
-import * as AuthActions from '../../../../../../core/state/auth/auth.actions';
 import { Store, select } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 import { Observable } from 'rxjs';
-import { ClickOutsideDirective } from '../../../../../../shared/directives/click-outside.directive';
 import { User } from '../../../../../../core/models';
+import * as AuthActions from '../../../../../../core/state/auth/auth.actions';
 import { selectCurrentUser } from '../../../../../../core/state/auth/auth.selectors';
 import { ThemeService } from '../../../../../../services/theme.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { ClickOutsideDirective } from 'src/app/shared/directives/click-outside.directive';
 
 @Component({
   selector: 'app-profile-menu',

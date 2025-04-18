@@ -10,19 +10,18 @@
   </div>
 </td>
 <td class="py-2 text-center">
-  <span class="text-sm font-semibold text-muted-foreground">{{ menuItem.price | currency }}</span>
+  <span class="text-sm font-semibold text-muted-foreground">{{ menuItem.price }} {{ menuItem.currency.symbol }}</span>
 </td>
 <td class="py-2 text-center">
   <span class="text-sm font-semibold text-muted-foreground">{{ menuItem.salesCount }}</span>
 </td>
 <td class="py-2 text-center">
   <div class="inline-block">
-    <app-button impact="light" tone="success" shape="rounded" size="medium">{{
-      menuItem.price * menuItem.salesCount | currency
-    }}</app-button>
+    <app-button impact="light" tone="success" shape="rounded" size="medium"
+      >{{ menuItem.price * menuItem.salesCount }} {{ menuItem.currency.symbol }}</app-button
+    >
   </div>
 </td>
-
 <!-- <td class="py-2 text-center">
   <div class="inline-block">
     <app-button impact="light" tone="info" shape="rounded" size="medium">{{ menuItem.category }}</app-button>

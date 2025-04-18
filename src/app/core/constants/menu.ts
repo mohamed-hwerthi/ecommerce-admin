@@ -50,7 +50,7 @@ export class Menu {
         },
       ],
     },
-    {
+    /*     {
       group: 'Pages',
       separator: false,
       items: [
@@ -65,6 +65,6 @@ export class Menu {
           route: '/profile',
         },
       ],
-    },
+    } */
   ];
 }

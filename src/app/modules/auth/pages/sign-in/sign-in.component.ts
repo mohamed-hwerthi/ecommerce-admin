@@ -26,11 +26,10 @@ export class SignInComponent implements OnInit {
   baseUrl: string = '';
 
   constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private authService: AuthService,
-    private store: Store,
-    private toastr: ToastrService,
+    private readonly formBuilder: FormBuilder,
+    private readonly authService: AuthService,
+    private readonly store: Store,
+    private readonly toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -72,7 +71,7 @@ export class SignInComponent implements OnInit {
       },
       error: (error) => {
         this.toastr.error(error);
-        (this as any)[`isLoading${type.charAt(0).toUpperCase() + type.slice(1)}`] = false; // Converts to camelCase isLoading admin or user or mod
+        (this as any)[`isLoading${type.charAt(0).toUpperCase() + type.slice(1)}`] = false;
       },
     });
   }
