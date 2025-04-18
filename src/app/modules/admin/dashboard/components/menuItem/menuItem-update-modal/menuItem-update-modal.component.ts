@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -15,10 +15,9 @@ import { Media } from 'src/app/core/models/media.model';
 import { MenuItem } from 'src/app/core/models';
 import { CurrencyService } from 'src/app/services/currency.service';
 import { CurrencyDTO } from 'src/app/core/models/currency.model';
-
 import { MessageService } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
-import { SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Tax } from 'src/app/core/models/tax.model';
 
 @Component({
@@ -26,16 +25,23 @@ import { Tax } from 'src/app/core/models/tax.model';
   templateUrl: './menuItem-update-modal.component.html',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, DropdownModule, MultiSelectModule, FileUploadModule],
+  providers: [MessageService],
 })
 export class MenuItemUpdateModalComponent implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef;
+
   menuItemForm: FormGroup;
-  // menuItems$: Observable<MenuItem[]>;
   private currentMenuItemId: number | null = null;
   allCategories: CategoryDTO[] = [];
-  selectedFile: File | null = null;
   allCurrencies: CurrencyDTO[] = [];
+  selectedFile: File | null = null;
   imagePreviewUrl: SafeUrl | null = null;
-  tax:Tax | null =null;
+  tax: Tax | null = null;
+
+  defaultImageUrl: URL = new URL(
+    'https://w0.peakpx.com/wallpaper/97/150/HD-wallpaper-mcdonalds-double-cheese-burger-double-mcdonalds-cheese-burger-thumbnail.jpg',
+  );
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: Store,
@@ -43,23 +49,19 @@ export class MenuItemUpdateModalComponent implements OnInit {
     private readonly toastr: ToastrService,
     private readonly categoryService: CategoryService,
     private readonly mediaService: MediaService,
-    private readonly currencyService:CurrencyService,
-    
-
+    private readonly currencyService: CurrencyService,
+    private readonly sanitizer: DomSanitizer
   ) {
-    // Initialize the form with structure
     this.menuItemForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
       price: [1, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?(\.\d+)?(?<=\d)$/)]],
       tva: [0, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?(\.\d+)?(?<=\d)$/)]],
+      imageUrl: [''],
       categories: [null, Validators.required],
       barCode: [''],
       currency: [null, Validators.required],
-
     });
-
-    // this.menuItems$ = this.menuItemsService.getAllMenuItems();
   }
 
   ngOnInit(): void {
@@ -67,82 +69,101 @@ export class MenuItemUpdateModalComponent implements OnInit {
     this.loadCategories();
     this.store.select(selectMenuItemToUpdate).subscribe((menuItem) => {
       if (menuItem) {
-        console.log(menuItem)
         this.currentMenuItemId = menuItem.id;
-        this.tax=menuItem?.tax
+        this.tax = menuItem?.tax;
         this.menuItemForm.patchValue({
           title: menuItem.title,
           description: menuItem.description,
           price: menuItem.price,
           currency: menuItem.currency,
           tva: menuItem?.tax?.rate,
+          imageUrl: menuItem.medias?.[0]?.url || '',
           categories: menuItem.categories,
           barCode: menuItem.barCode,
         });
+        // Set initial image preview if there's an existing image
+        if (menuItem.medias?.[0]?.url) {
+          this.imagePreviewUrl = this.sanitizer.bypassSecurityTrustUrl(menuItem.medias[0].url);
+        }
       }
     });
   }
 
   onFileSelected(event: any): void {
-    const file = event.files[0];
+    const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
+      this.generateImagePreview(file);
     }
   }
 
-  handelMenuItemUpdating() {
-    if (this.menuItemForm.valid) {
-      if (this.selectedFile) {
-        this.uploadMediaAndUpdateMenuItem();
-      } else {
-        const submissionValues = this.menuItemForm.getRawValue();
-       
-    // Prepare tax object
-    const taxPayload = this.tax 
-      ? { ...this.tax, rate: submissionValues.tva } // Update existing tax
-      : { rate: submissionValues.tva 
-        , name: 'TVA' // Or any default name you prefer
-      }; // Create new tax if none exists
+  removeImage(): void {
+    this.selectedFile = null;
+    this.imagePreviewUrl = null;
+    this.menuItemForm.get('imageUrl')?.setValue('');
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
 
-    const payload = {
-      ...submissionValues,
-      tax: taxPayload
+  private generateImagePreview(file: File): void {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imagePreviewUrl = this.sanitizer.bypassSecurityTrustUrl(e.target.result);
     };
-      console.log(payload)
-         
+    reader.readAsDataURL(file);
+  }
+
+  handelMenuItemUpdating(): void {
+    if (this.menuItemForm.valid) {
+      const submissionValues = this.menuItemForm.getRawValue();
+
+      // Prepare tax object
+      const taxPayload = this.tax
+        ? { ...this.tax, rate: submissionValues.tva }
+        : { rate: submissionValues.tva, name: 'TVA' };
+
+      const payload = {
+        ...submissionValues,
+        tax: taxPayload,
+      };
+
+      if (this.selectedFile) {
+        this.uploadMediaAndUpdateMenuItem(payload);
+      } else {
         this.updateMenuItem(payload);
       }
     } else {
       this.menuItemForm.markAllAsTouched();
+      this.toastr.error('Please fill in all required fields.');
     }
   }
 
-  private uploadMediaAndUpdateMenuItem(): void {
+  private uploadMediaAndUpdateMenuItem(payload: any): void {
     if (this.selectedFile) {
       this.mediaService.uploadFile(this.selectedFile).subscribe({
         next: (media: Media) => {
-          const submissionValues = this.menuItemForm.getRawValue();
-          submissionValues.medias = [media];
-          this.updateMenuItem(submissionValues);
+          payload.medias = [media];
+          this.updateMenuItem(payload);
         },
         error: (error: any) => this.toastr.error('Error uploading media file!', error?.message || 'Unknown error'),
       });
     }
   }
-  updateMenuItem(subbsmissionValue: MenuItem): void {
+
+  updateMenuItem(submissionValue: MenuItem): void {
     if (this.currentMenuItemId) {
-      this.menuItemsService.updateMenuItem(this.currentMenuItemId, subbsmissionValue).subscribe({
-        next: (MenuItem) => {
+      this.menuItemsService.updateMenuItem(this.currentMenuItemId, submissionValue).subscribe({
+        next: (menuItem) => {
           this.closeModal();
-          this.menuItemsService.menuItemUpdated(MenuItem);
+          this.menuItemsService.menuItemUpdated(menuItem);
           this.toastr.success('Menu item updated successfully!');
         },
         error: (error) => this.toastr.error('Error updating menu item', error),
       });
-    } else {
-      // If the form i invalid, iterate over the controls and log the errors
     }
   }
+
   loadCategories(): void {
     this.categoryService.findAllCategories().subscribe({
       next: (res: CategoryDTO[]) => {
@@ -153,20 +174,19 @@ export class MenuItemUpdateModalComponent implements OnInit {
       },
     });
   }
-  closeModal(): void {
-    this.store.dispatch(closeUpdateMenuItemModal());
-  }
 
   loadCurrencies(): void {
     this.currencyService.findAllCurrencies().subscribe({
       next: (res: CurrencyDTO[]) => {
-        console.log(res);
         this.allCurrencies = res;
       },
       error: (error) => {
-        this.toastr.error('Error fetching categories:', error);
+        this.toastr.error('Error fetching currencies:', error);
       },
     });
+  }
 
+  closeModal(): void {
+    this.store.dispatch(closeUpdateMenuItemModal());
   }
 }
