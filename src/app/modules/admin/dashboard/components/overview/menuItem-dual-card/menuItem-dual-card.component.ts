@@ -1,19 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { NgStyle, CurrencyPipe } from '@angular/common';
-import { MenuItem } from '../../../../../../core/models';
+import { NgStyle } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { MenuItem } from '../../../../../../core/models';
 
 @Component({
   selector: '[menuItem-dual-card]',
   templateUrl: './menuItem-dual-card.component.html',
   standalone: true,
-  imports: [NgStyle, CurrencyPipe, RouterLink],
+  imports: [NgStyle, RouterLink],
 })
-export class MenuItemDualCardComponent  {
+export class MenuItemDualCardComponent {
   @Input() menuItem: MenuItem = <MenuItem>{};
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {}
 }

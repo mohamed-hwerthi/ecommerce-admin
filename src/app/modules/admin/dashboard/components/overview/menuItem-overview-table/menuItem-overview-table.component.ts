@@ -1,18 +1,14 @@
-import { Observable, Subscription, interval, startWith, switchMap } from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable, interval, startWith, switchMap } from 'rxjs';
 
 import { CommonModule, NgFor } from '@angular/common';
-import { MenuItemsService } from '../../../../../../services/menuItems.service';
-import { MenuItem } from '../../../../../../core/models';
-import { LoaderComponent } from '../../../../../../shared/components/loader/loader.component';
-import { AngularSvgIconModule } from 'angular-svg-icon';
-import { ButtonComponent } from '../../../../../../shared/components/button/button.component';
-import { openCreateMenuItemModal } from '../../../../../../core/state/modal/menuItem/modal.actions';
-import { Store } from '@ngrx/store';
-import { PaginationComponent } from '../../../../../../shared/components/pagination/pagination.component';
-import { ToastrService } from 'ngx-toastr';
-import { MenuItemOverviewTableItemComponent } from '../menuItem-overview-table-item/menuItem-overview-table-item.component';
 import { RouterLink } from '@angular/router';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+import { MenuItem } from '../../../../../../core/models';
+import { ButtonComponent } from '../../../../../../shared/components/button/button.component';
+import { LoaderComponent } from '../../../../../../shared/components/loader/loader.component';
+import { PaginationComponent } from '../../../../../../shared/components/pagination/pagination.component';
+import { MenuItemOverviewTableItemComponent } from '../menuItem-overview-table-item/menuItem-overview-table-item.component';
 
 @Component({
   selector: '[menuItem-overview-table]',
@@ -26,7 +22,7 @@ import { RouterLink } from '@angular/router';
     CommonModule,
     LoaderComponent,
     PaginationComponent,
-    RouterLink
+    RouterLink,
   ],
 })
 export class MenuItemOverviewTableComponent implements OnInit {
@@ -52,5 +48,4 @@ export class MenuItemOverviewTableComponent implements OnInit {
         }),
       );
   }
-
 }

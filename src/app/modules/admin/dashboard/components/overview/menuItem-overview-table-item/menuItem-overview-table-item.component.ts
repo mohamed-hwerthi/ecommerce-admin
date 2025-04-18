@@ -13,11 +13,11 @@ import {
   selector: '[menuItem-overview-table-item]',
   templateUrl: './menuItem-overview-table-item.component.html',
   standalone: true,
-  imports: [AngularSvgIconModule, CurrencyPipe, ButtonComponent,CommonModule],
+  imports: [AngularSvgIconModule, CurrencyPipe, ButtonComponent, CommonModule],
 })
 export class MenuItemOverviewTableItemComponent implements OnInit {
   @Input() menuItem: MenuItem = <MenuItem>{};
-  constructor(private store: Store) {}
+  constructor(private readonly store: Store) {}
 
   ngOnInit(): void {}
 

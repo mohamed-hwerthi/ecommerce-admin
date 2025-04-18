@@ -7,9 +7,9 @@
   <!-- Description  -->
   <h2 class="text-md mt-6 font-semibold text-foreground">{{ menuItem.title }}</h2>
   <div class="flex items-end justify-between text-sm font-semibold text-muted-foreground">
-    <div> Price: {{ menuItem.price | currency }}</div>
+    <div>Price: {{ menuItem.price }} {{ menuItem.currency.symbol }}</div>
 
-    <div>Sales Count: {{menuItem.salesCount}}</div>
+    <div>Sales Count: {{ menuItem.salesCount }}</div>
   </div>
   <!-- Buttons -->
   <div class="mt-6 flex items-center justify-between">
@@ -19,7 +19,7 @@
       Place an order
     </button>
     <button
-    routerLink="/admin/items"
+      routerLink="/admin/items"
       class="lex-none rounded-md bg-card px-4 py-2.5 text-xs font-semibold text-muted-foreground hover:bg-muted hover:text-foreground">
       View Item
     </button>
