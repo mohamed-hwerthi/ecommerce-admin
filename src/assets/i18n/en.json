@@ -65,7 +65,7 @@
     "PROFILE": "Profile",
     "ORDERS": "Orders",
     "CONTACT": "Contact",
-    "COPYRIGHT": "© 2024 <a routerLink='/' class='hover:underline'>Food Squad™</a>. All Rights Reserved."
+    "COPYRIGHT": "© 2024 <a routerLink='/' class='hover:underline'>Orix Bio</a>. All Rights Reserved."
   },
   "PROFILE_MENU": {
     "PROFILE": "My Profile",

@@ -5,25 +5,14 @@ import { CommonModule, NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { MenuItem } from '../../../../../../core/models';
-import { ButtonComponent } from '../../../../../../shared/components/button/button.component';
 import { LoaderComponent } from '../../../../../../shared/components/loader/loader.component';
-import { PaginationComponent } from '../../../../../../shared/components/pagination/pagination.component';
 import { MenuItemOverviewTableItemComponent } from '../menuItem-overview-table-item/menuItem-overview-table-item.component';
 
 @Component({
   selector: '[menuItem-overview-table]',
   templateUrl: './menuItem-overview-table.component.html',
   standalone: true,
-  imports: [
-    NgFor,
-    AngularSvgIconModule,
-    ButtonComponent,
-    MenuItemOverviewTableItemComponent,
-    CommonModule,
-    LoaderComponent,
-    PaginationComponent,
-    RouterLink,
-  ],
+  imports: [NgFor, AngularSvgIconModule, MenuItemOverviewTableItemComponent, CommonModule, LoaderComponent, RouterLink],
 })
 export class MenuItemOverviewTableComponent implements OnInit {
   @Input() menuItems: MenuItem[] = [];
