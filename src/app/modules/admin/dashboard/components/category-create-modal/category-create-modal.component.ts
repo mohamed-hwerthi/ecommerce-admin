@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -11,6 +11,7 @@ import { closeCreateCategoryModal } from 'src/app/core/state/modal/category/moda
 import { CategoryService } from 'src/app/services/category.service';
 import { MediaService } from '../../../layout/services/media.service';
 import { Media } from 'src/app/core/models/media.model';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: '[category-create-modal]',
@@ -22,6 +23,8 @@ import { Media } from 'src/app/core/models/media.model';
 export class CategoryCreateModalComponent {
   categoryForm: FormGroup;
   selectedFile: File | null = null;
+  imagePreviewUrl: SafeUrl | null = null;
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -29,6 +32,7 @@ export class CategoryCreateModalComponent {
     private readonly store: Store,
     private readonly toastr: ToastrService,
     private readonly mediaService: MediaService,
+    private readonly sanitizer: DomSanitizer,
   ) {
     this.categoryForm = this.fb.group({
       name: ['', Validators.required],
@@ -36,9 +40,10 @@ export class CategoryCreateModalComponent {
     });
   }
   onFileSelected(event: any): void {
-    const file = event.files[0];
+    const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
+      this.generateImagePreview(file);
     }
   }
 
@@ -101,5 +106,21 @@ export class CategoryCreateModalComponent {
       name: '',
       description: '',
     });
+  }
+  removeImage(): void {
+    this.selectedFile = null;
+    this.imagePreviewUrl = null;
+    this.categoryForm.get('imageUrl')?.setValue('');
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
+  private generateImagePreview(file: File): void {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imagePreviewUrl = this.sanitizer.bypassSecurityTrustUrl(e.target.result);
+      console.log(this.imagePreviewUrl);
+    };
+    reader.readAsDataURL(file);
   }
 }

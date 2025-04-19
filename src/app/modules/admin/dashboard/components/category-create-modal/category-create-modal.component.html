@@ -65,19 +65,66 @@
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
               placeholder="Write category description here"></textarea>
           </div>
+          <!-- Image Upload Section -->
           <div class="col-span-2">
-            <label for="category" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-            >Image<span class="text-red-500">*</span></label
-          >
-            <div class="card flex justify-center">
-              <p-fileUpload 
-              mode="basic" 
-              chooseLabel="choose image " 
-              chooseIcon="pi pi-upload"
-              name="demo[]" 
-              accept="image/*" 
-              (onSelect)="onFileSelected($event)" /></div>
+            <label class="mb-1 block text-xs font-medium text-gray-700 dark:text-gray-300">
+              Product Image <span class="text-red-500">*</span>
+            </label>
+
+            <!-- Image Preview -->
+            <div *ngIf="selectedFile" class="mb-2 flex items-center">
+              <div class="relative h-16 w-16 overflow-hidden rounded-md border border-gray-100 dark:border-gray-400">
+                <img *ngIf="selectedFile" [src]="imagePreviewUrl" alt="Preview" class="h-full w-full object-cover" />
+                <button
+                  type="button"
+                  (click)="removeImage()"
+                  class="absolute top-0.5 right-0.5 rounded-full bg-red-500 p-0.5 text-white hover:bg-red-600">
+                  <svg class="h-2 w-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Upload Area -->
+            <div class="flex w-full items-center justify-center">
+              <label
+                class="flex h-20 w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                <div class="flex flex-col items-center justify-center pt-3 pb-4">
+                  <svg
+                    class="mb-1 h-6 w-6 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 16">
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                  </svg>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    <span class="font-semibold">Upload</span> or drag and drop
+                  </p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    {{ selectedFile ? 'Change image' : 'PNG, JPG (MAX. 2MB)' }}
+                  </p>
+                </div>
+                <input
+                  type="file"
+                  id="fileInput"
+                  class="hidden"
+                  accept="image/*"
+                  (change)="onFileSelected($event)"
+                  #fileInput />
+              </label>
+            </div>
           </div>
+
           <div class="col-span-2">
             <button
               type="submit"
