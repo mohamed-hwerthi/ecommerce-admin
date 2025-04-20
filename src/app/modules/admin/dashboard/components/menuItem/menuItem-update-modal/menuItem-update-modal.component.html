@@ -108,7 +108,7 @@
                 class="w-full custom-multiselect"
                 [panelStyle]="{'background': 'var(--gray-50)', 'border': '1px solid var(--gray-300)'}">
               </p-multiSelect>
-              <div *ngIf="menuItemForm.get('category')?.touched && menuItemForm.get('category')?.invalid" 
+              <div *ngIf="menuItemForm.get('categories')?.touched && menuItemForm.get('categories')?.invalid" 
                    class="absolute mt-1 text-xs text-red-600 dark:text-red-400">
                 Category is required
               </div>
@@ -167,75 +167,76 @@
           </div>
 
           <!-- Image Upload Section -->
-         <!-- Image Upload Section -->
-<div class="col-span-2">
-  <label class="mb-1 block text-xs font-medium text-gray-700 dark:text-gray-300">
-    Product Image <span class="text-red-500">*</span>
-  </label>
+          <div class="col-span-2">
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Product Image <span class="text-red-500">*</span>
+            </label>
 
-  <!-- Image Preview -->
-  <div *ngIf="selectedFile || menuItemForm.get('imageUrl')?.value" class="mb-2 flex items-center">
-    <div class="relative h-16 w-16 overflow-hidden rounded-md border border-gray-100 dark:border-gray-400">
-      <img
-        *ngIf="selectedFile; else defaultImage"
-        [src]="imagePreviewUrl"
-        alt="Preview"
-        class="h-full w-full object-cover" />
-      <ng-template #defaultImage>
-        <img
-          [src]="menuItemForm.get('imageUrl')?.value || defaultImageUrl.href"
-          alt="Default"
-          class="h-full w-full object-cover" />
-      </ng-template>
-      <button
-        type="button"
-        (click)="removeImage()"
-        class="absolute top-0.5 right-0.5 rounded-full bg-red-500 p-0.5 text-white hover:bg-red-600">
-        <svg class="h-2 w-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path
-            fill-rule="evenodd"
-            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-            clip-rule="evenodd"></path>
-        </svg>
-      </button>
-    </div>
-  </div>
+            <!-- Image Preview -->
+            <div class="mb-4 flex items-center">
+              <div class="relative h-10 w-10 overflow-hidden rounded-full border border-gray-200 dark:border-gray-600">
+                <img
+                  *ngIf="imagePreviewUrl || menuItemForm.get('imageUrl')?.value; else placeholderImage"
+                  [src]="imagePreviewUrl || getImageUrl()"
+                  alt="Product Image"
+                  class="h-full w-full object-cover" />
+                <ng-template #placeholderImage>
+                  <img
+                    [src]="defaultImageUrl.href"
+                    alt="Default Image"
+                    class="h-full w-full object-cover" />
+                </ng-template>
+                <button
+                  *ngIf="imagePreviewUrl || menuItemForm.get('imageUrl')?.value"
+                  type="button"
+                  (click)="removeImage()"
+                  class="absolute top-0 right-0 rounded-full bg-red-500 p-1 text-white hover:bg-red-600 transform translate-x-1/4 -translate-y-1/4">
+                  <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
 
-  <!-- Upload Area -->
-  <div class="flex w-full items-center justify-center">
-    <label
-      class="flex h-20 w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-      <div class="flex flex-col items-center justify-center pt-3 pb-4">
-        <svg
-          class="mb-1 h-6 w-6 text-gray-500 dark:text-gray-400"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 20 16">
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-        </svg>
-        <p class="text-xs text-gray-500 dark:text-gray-400">
-          <span class="font-semibold">Upload</span> or drag and drop
-        </p>
-        <p class="text-xs text-gray-500 dark:text-gray-400">
-          {{ selectedFile ? 'Change image' : 'PNG, JPG (MAX. 2MB)' }}
-        </p>
-      </div>
-      <input
-        type="file"
-        id="fileInput"
-        class="hidden"
-        accept="image/*"
-        (change)="onFileSelected($event)"
-        #fileInput />
-    </label>
-  </div>
-</div>
+            <!-- Upload Area -->
+            <div class="flex w-full items-center justify-center">
+              <label
+                for="fileInput"
+                class="flex h-24 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600 transition-colors duration-200">
+                <div class="flex flex-col items-center justify-center pt-4 pb-5">
+                  <svg
+                    class="mb-2 h-8 w-8 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns=""
+                    fill="none"
+                    viewBox="0 0 20 16">
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                  </svg>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    <span class="font-semibold">Click to upload</span> or drag and drop
+                  </p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    PNG, JPG (MAX. 2MB)
+                  </p>
+                </div>
+                <input
+                  id="fileInput"
+                  type="file"
+                  class="hidden"
+                  accept="image/*"
+                  (change)="onFileSelected($event)"
+                  #fileInput />
+              </label>
+            </div>
+          </div>
           
           <!-- Barcode Field -->
           <div class="col-span-2">

@@ -19,6 +19,7 @@ import { MessageService } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Tax } from 'src/app/core/models/tax.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: '[menuItem-update-modal]',
@@ -37,6 +38,7 @@ export class MenuItemUpdateModalComponent implements OnInit {
   selectedFile: File | null = null;
   imagePreviewUrl: SafeUrl | null = null;
   tax: Tax | null = null;
+  originalMedia: Media | null = null; // Store the original media object
 
   defaultImageUrl: URL = new URL(
     'https://w0.peakpx.com/wallpaper/97/150/HD-wallpaper-mcdonalds-double-cheese-burger-double-mcdonalds-cheese-burger-thumbnail.jpg',
@@ -71,6 +73,7 @@ export class MenuItemUpdateModalComponent implements OnInit {
       if (menuItem) {
         this.currentMenuItemId = menuItem.id;
         this.tax = menuItem?.tax;
+        this.originalMedia = menuItem.medias?.[0] || null; // Store original media
         this.menuItemForm.patchValue({
           title: menuItem.title,
           description: menuItem.description,
@@ -83,17 +86,35 @@ export class MenuItemUpdateModalComponent implements OnInit {
         });
         // Set initial image preview if there's an existing image
         if (menuItem.medias?.[0]?.url) {
-          this.imagePreviewUrl = this.sanitizer.bypassSecurityTrustUrl(menuItem.medias[0].url);
+          this.imagePreviewUrl = this.sanitizer.bypassSecurityTrustUrl(this.getImageUrl());
         }
       }
     });
   }
 
+  getImageUrl(): string {
+    const imageUrl = this.menuItemForm.get('imageUrl')?.value;
+    if (imageUrl) {
+      return environment.apiStaticUrl + imageUrl;
+    }
+    return this.defaultImageUrl.href;
+  }
+
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
+      // Validate file size and type
+      if (file.size > 2 * 1024 * 1024) {
+        this.toastr.error('File size must be less than 2MB');
+        return;
+      }
+      if (!['image/png', 'image/jpeg'].includes(file.type)) {
+        this.toastr.error('Only PNG and JPG files are allowed');
+        return;
+      }
       this.selectedFile = file;
       this.generateImagePreview(file);
+      this.menuItemForm.get('imageUrl')?.setValue(''); // Clear existing image URL since a new file is selected
     }
   }
 
@@ -101,6 +122,7 @@ export class MenuItemUpdateModalComponent implements OnInit {
     this.selectedFile = null;
     this.imagePreviewUrl = null;
     this.menuItemForm.get('imageUrl')?.setValue('');
+    this.originalMedia = null; // Clear original media
     if (this.fileInput) {
       this.fileInput.nativeElement.value = '';
     }
@@ -127,6 +149,13 @@ export class MenuItemUpdateModalComponent implements OnInit {
         ...submissionValues,
         tax: taxPayload,
       };
+
+      // Include existing media if no new file is selected and image wasn't removed
+      if (!this.selectedFile && this.originalMedia && this.menuItemForm.get('imageUrl')?.value) {
+        payload.medias = [this.originalMedia];
+      } else if (!this.selectedFile && !this.originalMedia) {
+        payload.medias = []; // No image
+      }
 
       if (this.selectedFile) {
         this.uploadMediaAndUpdateMenuItem(payload);
