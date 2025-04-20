@@ -74,20 +74,22 @@ export class MenuItemUpdateModalComponent implements OnInit {
         this.currentMenuItemId = menuItem.id;
         this.tax = menuItem?.tax;
         this.originalMedia = menuItem.medias?.[0] || null; // Store original media
+        
+        // Calculate price without tax if tax exists, otherwise use price directly
+        const displayPrice = menuItem.tax?.rate
+        ? parseFloat((menuItem.price / (1 + menuItem.tax.rate / 100)).toFixed(3)) // Rounds to 2 decimals
+        : parseFloat(menuItem.price.toFixed(3)); // Also rounds if no tax
+    
         this.menuItemForm.patchValue({
           title: menuItem.title,
           description: menuItem.description,
-          price: menuItem.price,
+          price: displayPrice,  // Use the calculated price here
           currency: menuItem.currency,
           tva: menuItem?.tax?.rate,
           imageUrl: menuItem.medias?.[0]?.url || '',
           categories: menuItem.categories,
           barCode: menuItem.barCode,
         });
-        // Set initial image preview if there's an existing image
-        if (menuItem.medias?.[0]?.url) {
-          this.imagePreviewUrl = this.sanitizer.bypassSecurityTrustUrl(this.getImageUrl());
-        }
       }
     });
   }

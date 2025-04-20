@@ -18,7 +18,7 @@
       </div>
     </app-button>
 
-    <app-button
+    <!-- <app-button
       *ngIf="currentUser$ | async as currentUser"
       [ngClass]="{ 'button-disabled': currentUser.role === 'Moderator' }"
       (click)="currentUser.role === 'Admin' ? openDeleteModal() : null"
@@ -30,6 +30,6 @@
         <span>{{ currentUser.role === 'Admin' ? 'Delete' : 'Not allowed' }}</span>
         <svg-icon src="assets/icons/heroicons/outline/delete.svg"></svg-icon>
       </div>
-    </app-button>
+    </app-button> -->
   </div>
 </td>
